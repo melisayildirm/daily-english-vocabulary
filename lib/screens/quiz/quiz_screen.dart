@@ -4,16 +4,23 @@ import '../../models/word_model.dart';
 import '../../services/word_service.dart';
 
 class QuizScreen extends StatefulWidget {
-  const QuizScreen({super.key});
+  final List<WordModel>? quizWords;
+
+  const QuizScreen({
+    super.key,
+    this.quizWords,
+  });
 
   @override
   State<QuizScreen> createState() => _QuizScreenState();
 }
 
 class _QuizScreenState extends State<QuizScreen> {
-  late List<WordModel> learnedWords;
+  late List<WordModel> quizWords;
   late WordModel currentWord;
   late List<String> options;
+
+  final List<WordModel> wrongWords = [];
 
   int currentIndex = 0;
   int score = 0;
@@ -21,20 +28,21 @@ class _QuizScreenState extends State<QuizScreen> {
   @override
   void initState() {
     super.initState();
-    learnedWords = List.from(WordService.getLearnedWords());
-    learnedWords.shuffle();
 
-    if (learnedWords.length >= 4) {
+    quizWords = widget.quizWords ?? List.from(WordService.getLearnedWords());
+    quizWords.shuffle();
+
+    if (quizWords.length >= 4) {
       prepareQuestion();
     }
   }
 
   void prepareQuestion() {
-    currentWord = learnedWords[currentIndex];
+    currentWord = quizWords[currentIndex];
 
     final random = Random();
 
-    final wrongOptions = learnedWords
+    final wrongOptions = quizWords
         .where((word) => word.id != currentWord.id)
         .map((word) => word.meaning)
         .toList()
@@ -53,6 +61,10 @@ class _QuizScreenState extends State<QuizScreen> {
 
     if (isCorrect) {
       score++;
+    } else {
+      if (!wrongWords.any((word) => word.id == currentWord.id)) {
+        wrongWords.add(currentWord);
+      }
     }
 
     ScaffoldMessenger.of(context).showSnackBar(
@@ -63,7 +75,7 @@ class _QuizScreenState extends State<QuizScreen> {
     );
 
     Future.delayed(const Duration(milliseconds: 800), () {
-      if (currentIndex < learnedWords.length - 1) {
+      if (currentIndex < quizWords.length - 1) {
         setState(() {
           currentIndex++;
           prepareQuestion();
@@ -81,14 +93,53 @@ class _QuizScreenState extends State<QuizScreen> {
       builder: (context) {
         return AlertDialog(
           title: const Text('Quiz Bitti 🎉'),
-          content: Text('Skorun: $score / ${learnedWords.length}'),
+          content: SizedBox(
+            width: double.maxFinite,
+            child: wrongWords.isEmpty
+                ? Text('Harika! Tüm cevapların doğru.\nSkorun: $score / ${quizWords.length}')
+                : Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Skorun: $score / ${quizWords.length}'),
+                      const SizedBox(height: 16),
+                      const Text(
+                        'Yanlış Bildiğin Kelimeler:',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 8),
+                      ...wrongWords.map(
+                        (word) => Padding(
+                          padding: const EdgeInsets.only(bottom: 6),
+                          child: Text('${word.word} - ${word.meaning}'),
+                        ),
+                      ),
+                    ],
+                  ),
+          ),
           actions: [
+            if (wrongWords.isNotEmpty)
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => QuizScreen(
+                        quizWords: wrongWords,
+                      ),
+                    ),
+                  );
+                },
+                child: const Text('Yanlışları Tekrar Et'),
+              ),
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
                 Navigator.pop(context);
               },
-              child: const Text('Tamam'),
+              child: const Text('Ana Sayfaya Dön'),
             ),
           ],
         );
@@ -98,7 +149,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (learnedWords.length < 4) {
+    if (quizWords.length < 4) {
       return Scaffold(
         appBar: AppBar(
           title: const Text('Quiz'),
@@ -127,12 +178,10 @@ class _QuizScreenState extends State<QuizScreen> {
         child: Column(
           children: [
             Text(
-              'Soru ${currentIndex + 1} / ${learnedWords.length}',
+              'Soru ${currentIndex + 1} / ${quizWords.length}',
               style: const TextStyle(fontSize: 18),
             ),
-
             const SizedBox(height: 20),
-
             Text(
               currentWord.word,
               style: const TextStyle(
@@ -140,9 +189,7 @@ class _QuizScreenState extends State<QuizScreen> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-
             const SizedBox(height: 30),
-
             ...options.map((option) {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 12),
