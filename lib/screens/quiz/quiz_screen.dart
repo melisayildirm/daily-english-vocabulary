@@ -25,6 +25,8 @@ class _QuizScreenState extends State<QuizScreen> {
   int currentIndex = 0;
   int score = 0;
 
+  bool get isRetryQuiz => widget.quizWords != null;
+
   @override
   void initState() {
     super.initState();
@@ -32,7 +34,7 @@ class _QuizScreenState extends State<QuizScreen> {
     quizWords = widget.quizWords ?? List.from(WordService.getLearnedWords());
     quizWords.shuffle();
 
-    if (quizWords.length >= 4) {
+    if (quizWords.isNotEmpty) {
       prepareQuestion();
     }
   }
@@ -42,9 +44,10 @@ class _QuizScreenState extends State<QuizScreen> {
 
     final random = Random();
 
-    final wrongOptions = quizWords
+    final wrongOptions = WordService.getLearnedWords()
         .where((word) => word.id != currentWord.id)
         .map((word) => word.meaning)
+        .toSet()
         .toList()
       ..shuffle(random);
 
@@ -96,7 +99,9 @@ class _QuizScreenState extends State<QuizScreen> {
           content: SizedBox(
             width: double.maxFinite,
             child: wrongWords.isEmpty
-                ? Text('Harika! Tüm cevapların doğru.\nSkorun: $score / ${quizWords.length}')
+                ? Text(
+                    'Harika! Tüm cevapların doğru.\nSkorun: $score / ${quizWords.length}',
+                  )
                 : Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -127,7 +132,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => QuizScreen(
-                        quizWords: wrongWords,
+                        quizWords: List.from(wrongWords),
                       ),
                     ),
                   );
@@ -149,7 +154,19 @@ class _QuizScreenState extends State<QuizScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (quizWords.length < 4) {
+    if (quizWords.isEmpty) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Quiz'),
+          centerTitle: true,
+        ),
+        body: const Center(
+          child: Text('Quiz için kelime bulunamadı.'),
+        ),
+      );
+    }
+
+    if (!isRetryQuiz && quizWords.length < 4) {
       return Scaffold(
         appBar: AppBar(
           title: const Text('Quiz'),
@@ -170,7 +187,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Quiz'),
+        title: Text(isRetryQuiz ? 'Yanlışları Tekrar Et' : 'Quiz'),
         centerTitle: true,
       ),
       body: Padding(
