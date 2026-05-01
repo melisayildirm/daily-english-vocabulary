@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../models/word_model.dart';
 import '../../services/word_service.dart';
 import '../learned/learned_words_screen.dart';
+import '../quiz/quiz_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final String selectedLevel;
@@ -151,6 +152,22 @@ class _HomeScreenState extends State<HomeScreen> {
                             );
                           },
                           child: const Text('Öğrenilen Kelimeleri Gör'),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const QuizScreen(),
+                              ),
+                            );
+                          },
+                          child: const Text('Quiz Başlat'),
                         ),
                       ),
 
