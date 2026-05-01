@@ -28,82 +28,200 @@ class _HomeScreenState extends State<HomeScreen> {
       widget.dailyWordCount,
     );
 
+    final int totalWords = words.length;
+    final int learnedCount = learnedWordIds.length;
+    final double progress = totalWords == 0 ? 0 : learnedCount / totalWords;
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text('${widget.selectedLevel} Günlük Kelimeler'),
-        centerTitle: true,
-      ),
-      body: words.isEmpty
-          ? const Center(
-              child: Text('Bu seviyeye ait kelime bulunamadı.'),
-            )
-          : Column(
-              children: [
-                const SizedBox(height: 12),
-
-                Text(
-                  '${learnedWordIds.length} / ${words.length} tamamlandı',
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(20),
+              decoration: const BoxDecoration(
+                color: Color(0xFF5C4AE4),
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(28),
                 ),
-
-                const SizedBox(height: 8),
-
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: LinearProgressIndicator(
-                    value: learnedWordIds.length / words.length,
-                    minHeight: 8,
-                    borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${widget.selectedLevel} Seviyesi',
+                    style: const TextStyle(
+                      color: Colors.white70,
+                      fontSize: 13,
+                    ),
                   ),
-                ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Bugün ${widget.dailyWordCount} kelime öğren',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 22,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.14),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              'Günlük ilerleme',
+                              style: TextStyle(color: Colors.white70),
+                            ),
+                            Text(
+                              '$learnedCount / $totalWords',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: LinearProgressIndicator(
+                            value: progress,
+                            minHeight: 7,
+                            backgroundColor: Colors.white24,
+                            color: const Color(0xFFA8F0C6),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
 
-                const SizedBox(height: 8),
+            const SizedBox(height: 14),
 
-                Expanded(
-                  child: ListView.builder(
-                    padding: const EdgeInsets.all(16),
-                    itemCount: words.length,
-                    itemBuilder: (context, index) {
-                      final word = words[index];
-                      final bool isLearned = learnedWordIds.contains(word.id);
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: [
+                  _statBox('$learnedCount', 'Bugün'),
+                  _statBox('${WordService.getLearnedWords().length}', 'Toplam'),
+                  _statBox('${(progress * 100).toInt()}%', 'İlerleme'),
+                ],
+              ),
+            ),
 
-                      return Card(
-                        margin: const EdgeInsets.only(bottom: 12),
-                        child: Padding(
-                          padding: const EdgeInsets.all(12),
+            const SizedBox(height: 14),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: _smallActionButton(
+                      title: 'Öğrenilenler',
+                      color: const Color(0xFFE8F9F2),
+                      textColor: const Color(0xFF0D4E34),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const LearnedWordsScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: _smallActionButton(
+                      title: 'Quiz',
+                      color: const Color(0xFFEEF0FF),
+                      textColor: const Color(0xFF2A1E8F),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const QuizScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 10),
+
+            Expanded(
+              child: words.isEmpty
+                  ? const Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(24),
+                        child: Text(
+                          'Bu seviyedeki tüm kelimeleri öğrendin. Artık tekrar moduna geçebilirsin.',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                    )
+                  : ListView.builder(
+                      padding: const EdgeInsets.all(16),
+                      itemCount: words.length,
+                      itemBuilder: (context, index) {
+                        final word = words[index];
+                        final bool isLearned = learnedWordIds.contains(word.id);
+
+                        return Container(
+                          margin: const EdgeInsets.only(bottom: 14),
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF2A2A2A),
+                            borderRadius: BorderRadius.circular(22),
+                            border: Border.all(color: const Color(0xFF3A3A3A)),
+                          ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 word.word,
                                 style: const TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w800,
                                 ),
                               ),
-
                               const SizedBox(height: 8),
-
                               Text(
                                 word.meaning,
-                                style: const TextStyle(fontSize: 16),
+                                style: const TextStyle(
+                                  color: Color(0xFFA8F0C6),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
-
-                              const SizedBox(height: 6),
-
+                              const SizedBox(height: 8),
                               Text(
                                 word.exampleSentence,
-                                style: const TextStyle(fontSize: 14),
+                                style: const TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: 14,
+                                  height: 1.4,
+                                ),
                               ),
-
-                              const SizedBox(height: 12),
-
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: ElevatedButton.icon(
+                              const SizedBox(height: 14),
+                              SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton(
                                   onPressed: () {
                                     setState(() {
                                       if (isLearned) {
@@ -117,76 +235,80 @@ class _HomeScreenState extends State<HomeScreen> {
                                       }
                                     });
                                   },
-                                  icon: Icon(
-                                    isLearned
-                                        ? Icons.check_circle
-                                        : Icons.radio_button_unchecked,
-                                  ),
-                                  label: Text(
+                                  child: Text(
                                     isLearned ? 'Öğrenildi' : 'Öğrendim',
                                   ),
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const LearnedWordsScreen(),
-                              ),
-                            );
-                          },
-                          child: const Text('Öğrenilen Kelimeleri Gör'),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const QuizScreen(),
-                              ),
-                            );
-                          },
-                          child: const Text('Quiz Başlat'),
-                        ),
-                      ),
-
-                      const SizedBox(height: 10),
-
-                      SizedBox(
-                        width: double.infinity,
-                        child: OutlinedButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Text('Ana Sayfaya Dön'),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+                        );
+                      },
+                    ),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _statBox(String value, String label) {
+    return Expanded(
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 4),
+        padding: const EdgeInsets.symmetric(vertical: 14),
+        decoration: BoxDecoration(
+          color: const Color(0xFF2A2A2A),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: const Color(0xFF3A3A3A)),
+        ),
+        child: Column(
+          children: [
+            Text(
+              value,
+              style: const TextStyle(
+                color: Color(0xFFA8F0C6),
+                fontSize: 18,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              label,
+              style: const TextStyle(
+                color: Colors.white60,
+                fontSize: 12,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _smallActionButton({
+    required String title,
+    required Color color,
+    required Color textColor,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 14),
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(18),
+        ),
+        child: Text(
+          title,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: textColor,
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+      ),
     );
   }
 }

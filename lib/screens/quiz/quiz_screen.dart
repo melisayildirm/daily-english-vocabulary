@@ -72,7 +72,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(isCorrect ? 'Doğru 🎉' : 'Yanlış ❌'),
+        content: Text(isCorrect ? 'Doğru cevap' : 'Yanlış cevap'),
         duration: const Duration(milliseconds: 700),
       ),
     );
@@ -95,7 +95,7 @@ class _QuizScreenState extends State<QuizScreen> {
       barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Quiz Bitti 🎉'),
+          title: const Text('Quiz Sonucu'),
           content: SizedBox(
             width: double.maxFinite,
             child: wrongWords.isEmpty
