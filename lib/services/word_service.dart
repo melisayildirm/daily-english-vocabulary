@@ -166,21 +166,31 @@ class WordService {
 
     final learnedIds = learnedWords.map((word) => word.id).toSet();
 
-    return allWords
-        .where((word) => word.level == level)
+    final List<WordModel> levelWords =
+        allWords.where((word) => word.level == level).toList();
+
+    final List<WordModel> unlearnedWords = levelWords
         .where((word) => !learnedIds.contains(word.id))
-        .take(count)
         .toList();
+
+    if (unlearnedWords.isNotEmpty) {
+      return unlearnedWords.take(count).toList();
+    }
+
+    // Eğer bu seviyedeki tüm kelimeler öğrenildiyse tekrar moduna geç
+    levelWords.shuffle();
+    return levelWords.take(count).toList();
   }
+
   static List<WordModel> learnedWords = [];
 
-static void addLearnedWord(WordModel word) {
-  if (!learnedWords.any((w) => w.id == word.id)) {
-    learnedWords.add(word);
+  static void addLearnedWord(WordModel word) {
+    if (!learnedWords.any((w) => w.id == word.id)) {
+      learnedWords.add(word);
+    }
   }
-}
 
-static List<WordModel> getLearnedWords() {
-  return learnedWords;
-}
+  static List<WordModel> getLearnedWords() {
+    return learnedWords;
+  }
 }
