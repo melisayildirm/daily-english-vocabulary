@@ -164,7 +164,13 @@ class WordService {
       WordModel(id: 'c1_30', word: 'aftermath', meaning: 'sonrası', exampleSentence: 'They helped after the aftermath of the storm.', level: 'C1'),
     ];
 
-    return allWords.where((word) => word.level == level).take(count).toList();
+    final learnedIds = learnedWords.map((word) => word.id).toSet();
+
+    return allWords
+        .where((word) => word.level == level)
+        .where((word) => !learnedIds.contains(word.id))
+        .take(count)
+        .toList();
   }
   static List<WordModel> learnedWords = [];
 
