@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../services/word_service.dart';
+import '../../services/streak_service.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   final String selectedLevel;
   final int dailyWordCount;
 
@@ -10,6 +11,27 @@ class ProfileScreen extends StatelessWidget {
     required this.selectedLevel,
     required this.dailyWordCount,
   });
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  int streak = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    loadStreak();
+  }
+
+  Future<void> loadStreak() async {
+    final currentStreak = await StreakService.updateAndGetStreak();
+
+    setState(() {
+      streak = currentStreak;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +54,8 @@ class ProfileScreen extends StatelessWidget {
                 color: const Color(0xFF5C4AE4),
                 borderRadius: BorderRadius.circular(28),
               ),
-              child: Column(
-                children: const [
+              child: const Column(
+                children: [
                   CircleAvatar(
                     radius: 38,
                     backgroundColor: Colors.white24,
@@ -70,13 +92,13 @@ class ProfileScreen extends StatelessWidget {
               children: [
                 _profileStatCard(
                   title: 'Seviye',
-                  value: selectedLevel,
+                  value: widget.selectedLevel,
                   icon: Icons.school,
                 ),
                 const SizedBox(width: 12),
                 _profileStatCard(
                   title: 'Günlük Hedef',
-                  value: '$dailyWordCount',
+                  value: '${widget.dailyWordCount}',
                   icon: Icons.flag,
                 ),
               ],
@@ -94,7 +116,7 @@ class ProfileScreen extends StatelessWidget {
                 const SizedBox(width: 12),
                 _profileStatCard(
                   title: 'Seri',
-                  value: '1 gün',
+                  value: '$streak gün',
                   icon: Icons.local_fire_department,
                 ),
               ],
@@ -123,7 +145,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 14),
                   Text(
-                    '$totalLearned kelime öğrendin. Günlük hedefin $dailyWordCount kelime.',
+                    '$totalLearned kelime öğrendin. Günlük hedefin ${widget.dailyWordCount} kelime. Günlük serin $streak gün.',
                     style: const TextStyle(
                       color: Colors.white70,
                       fontSize: 14,
