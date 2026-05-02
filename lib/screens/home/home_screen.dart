@@ -3,6 +3,7 @@ import '../../models/word_model.dart';
 import '../../services/word_service.dart';
 import '../learned/learned_words_screen.dart';
 import '../quiz/quiz_screen.dart';
+import '../profile/profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final String selectedLevel;
@@ -151,6 +152,25 @@ class _HomeScreenState extends State<HomeScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => const QuizScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: _smallActionButton(
+                      title: 'Profil',
+                      color: const Color(0xFFEDEBFF),
+                      textColor: const Color(0xFF2A1E8F),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProfileScreen(
+                              selectedLevel: widget.selectedLevel,
+                              dailyWordCount: widget.dailyWordCount,
+                            ),
                           ),
                         );
                       },
