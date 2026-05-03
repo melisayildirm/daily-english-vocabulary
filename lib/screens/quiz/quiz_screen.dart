@@ -46,13 +46,13 @@ class _QuizScreenState extends State<QuizScreen> {
 
     final wrongOptions = WordService.getLearnedWords()
         .where((word) => word.id != currentWord.id)
-        .map((word) => word.meaning)
+        .map((word) => word.mainMeaning)
         .toSet()
         .toList()
       ..shuffle(random);
 
     options = [
-      currentWord.meaning,
+      currentWord.mainMeaning,
       ...wrongOptions.take(3),
     ];
 
@@ -60,7 +60,7 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   void checkAnswer(String selectedAnswer) {
-    final bool isCorrect = selectedAnswer == currentWord.meaning;
+    final bool isCorrect = selectedAnswer == currentWord.mainMeaning;
 
     if (isCorrect) {
       score++;
@@ -116,7 +116,7 @@ class _QuizScreenState extends State<QuizScreen> {
                       ...wrongWords.map(
                         (word) => Padding(
                           padding: const EdgeInsets.only(bottom: 6),
-                          child: Text('${word.word} - ${word.meaning}'),
+                          child: Text('${word.word} - ${word.mainMeaning}'),
                         ),
                       ),
                     ],

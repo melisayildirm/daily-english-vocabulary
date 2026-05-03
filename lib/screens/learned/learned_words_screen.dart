@@ -34,7 +34,7 @@ class LearnedWordsScreen extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    subtitle: Text(word.meaning),
+                    subtitle: Text(word.mainMeaning),
                   ),
                 );
               },

@@ -39,7 +39,7 @@ class DailyEnglishApp extends StatelessWidget {
             backgroundColor: const Color(0xFF5C4AE4),
             foregroundColor: Colors.white,
             elevation: 0,
-            minimumSize: const Size(double.infinity, 52),
+            minimumSize: const Size(0, 52),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
@@ -54,7 +54,7 @@ class DailyEnglishApp extends StatelessWidget {
           style: OutlinedButton.styleFrom(
             foregroundColor: const Color(0xFFA8F0C6),
             side: const BorderSide(color: Color(0xFFA8F0C6)),
-            minimumSize: const Size(double.infinity, 52),
+            minimumSize: const Size(0, 52),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),

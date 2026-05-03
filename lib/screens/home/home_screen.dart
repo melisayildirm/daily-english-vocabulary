@@ -4,6 +4,7 @@ import '../../services/word_service.dart';
 import '../learned/learned_words_screen.dart';
 import '../quiz/quiz_screen.dart';
 import '../profile/profile_screen.dart';
+import '../word_detail/word_detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final String selectedLevel;
@@ -51,10 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Text(
                     '${widget.selectedLevel} Seviyesi',
-                    style: const TextStyle(
-                      color: Colors.white70,
-                      fontSize: 13,
-                    ),
+                    style: const TextStyle(color: Colors.white70, fontSize: 13),
                   ),
                   const SizedBox(height: 4),
                   Text(
@@ -124,57 +122,51 @@ class _HomeScreenState extends State<HomeScreen> {
 
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
+              child: Wrap(
+                spacing: 10,
+                runSpacing: 10,
                 children: [
-                  Expanded(
-                    child: _smallActionButton(
-                      title: 'Öğrenilenler',
-                      color: const Color(0xFFE8F9F2),
-                      textColor: const Color(0xFF0D4E34),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const LearnedWordsScreen(),
-                          ),
-                        );
-                      },
-                    ),
+                  _smallActionButton(
+                    title: 'Öğrenilenler',
+                    color: const Color(0xFFE8F9F2),
+                    textColor: const Color(0xFF0D4E34),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LearnedWordsScreen(),
+                        ),
+                      );
+                    },
                   ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: _smallActionButton(
-                      title: 'Quiz',
-                      color: const Color(0xFFEEF0FF),
-                      textColor: const Color(0xFF2A1E8F),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const QuizScreen(),
-                          ),
-                        );
-                      },
-                    ),
+                  _smallActionButton(
+                    title: 'Quiz',
+                    color: const Color(0xFFEEF0FF),
+                    textColor: const Color(0xFF2A1E8F),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const QuizScreen(),
+                        ),
+                      );
+                    },
                   ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: _smallActionButton(
-                      title: 'Profil',
-                      color: const Color(0xFFEDEBFF),
-                      textColor: const Color(0xFF2A1E8F),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ProfileScreen(
-                              selectedLevel: widget.selectedLevel,
-                              dailyWordCount: widget.dailyWordCount,
-                            ),
+                  _smallActionButton(
+                    title: 'Profil',
+                    color: const Color(0xFFEDEBFF),
+                    textColor: const Color(0xFF2A1E8F),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProfileScreen(
+                            selectedLevel: widget.selectedLevel,
+                            dailyWordCount: widget.dailyWordCount,
                           ),
-                        );
-                      },
-                    ),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -201,8 +193,19 @@ class _HomeScreenState extends State<HomeScreen> {
                         final word = words[index];
                         final bool isLearned = learnedWordIds.contains(word.id);
 
-                        return Container(
-                          margin: const EdgeInsets.only(bottom: 14),
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => WordDetailScreen(word: word),
+                              ),
+                            ).then((_) {
+                              setState(() {});
+                            });
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.only(bottom: 14),
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
                             color: const Color(0xFF2A2A2A),
@@ -222,7 +225,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               const SizedBox(height: 8),
                               Text(
-                                word.meaning,
+                                word.mainMeaning,
                                 style: const TextStyle(
                                   color: Color(0xFFA8F0C6),
                                   fontSize: 16,
@@ -262,6 +265,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ],
                           ),
+                        ),
                         );
                       },
                     ),
@@ -295,10 +299,7 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 4),
             Text(
               label,
-              style: const TextStyle(
-                color: Colors.white60,
-                fontSize: 12,
-              ),
+              style: const TextStyle(color: Colors.white60, fontSize: 12),
             ),
           ],
         ),
@@ -312,20 +313,23 @@ class _HomeScreenState extends State<HomeScreen> {
     required Color textColor,
     required VoidCallback onTap,
   }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 14),
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(18),
-        ),
-        child: Text(
-          title,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: textColor,
-            fontWeight: FontWeight.w800,
+    return SizedBox(
+      width: 150,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 14),
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(18),
+          ),
+          child: Text(
+            title,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: textColor,
+              fontWeight: FontWeight.w800,
+            ),
           ),
         ),
       ),
