@@ -160,10 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ProfileScreen(
-                            selectedLevel: widget.selectedLevel,
-                            dailyWordCount: widget.dailyWordCount,
-                          ),
+                          builder: (context) => ProfileScreen(),
                         ),
                       );
                     },

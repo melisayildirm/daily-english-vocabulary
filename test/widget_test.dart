@@ -7,8 +7,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:daily_english_vocabulary/main.dart';
 import 'package:daily_english_vocabulary/app.dart';
 
 void main() {

@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import '../../services/word_service.dart';
 import '../../services/streak_service.dart';
+import '../level/level_selection_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
-  final String selectedLevel;
-  final int dailyWordCount;
-
-  const ProfileScreen({
-    super.key,
-    required this.selectedLevel,
-    required this.dailyWordCount,
-  });
+  const ProfileScreen({super.key});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -28,9 +24,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Future<void> loadStreak() async {
     final currentStreak = await StreakService.updateAndGetStreak();
 
+    if (!mounted) return;
+
     setState(() {
       streak = currentStreak;
     });
+  }
+
+  String getUserName() {
+    final user = FirebaseAuth.instance.currentUser;
+    final email = user?.email ?? '';
+
+    if (email.isEmpty) {
+      return 'Melisa';
+    }
+
+    return email.split('@').first;
+  }
+
+  String getUserEmail() {
+    return FirebaseAuth.instance.currentUser?.email ?? '';
   }
 
   @override
@@ -54,9 +67,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 color: const Color(0xFF5C4AE4),
                 borderRadius: BorderRadius.circular(28),
               ),
-              child: const Column(
+              child: Column(
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 38,
                     backgroundColor: Colors.white24,
                     child: Icon(
@@ -65,17 +78,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       size: 42,
                     ),
                   ),
-                  SizedBox(height: 14),
+                  const SizedBox(height: 14),
                   Text(
-                    'Daily English User',
-                    style: TextStyle(
+                    'Hoşgeldin ${getUserName()}',
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 22,
                       fontWeight: FontWeight.w800,
                     ),
                   ),
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
                   Text(
+                    getUserEmail(),
+                    style: const TextStyle(
+                      color: Colors.white70,
+                      fontSize: 13,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  const Text(
                     'Kelime öğrenme yolculuğun devam ediyor',
                     style: TextStyle(
                       color: Colors.white70,
@@ -92,13 +113,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
               children: [
                 _profileStatCard(
                   title: 'Seviye',
-                  value: widget.selectedLevel,
+                  value: 'Henüz seçilmedi',
                   icon: Icons.school,
                 ),
                 const SizedBox(width: 12),
                 _profileStatCard(
                   title: 'Günlük Hedef',
-                  value: '${widget.dailyWordCount}',
+                  value: '-',
                   icon: Icons.flag,
                 ),
               ],
@@ -132,27 +153,44 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 borderRadius: BorderRadius.circular(22),
                 border: Border.all(color: const Color(0xFF3A3A3A)),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Genel Durum',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w800,
+              child: Text(
+                '$totalLearned kelime öğrendin. Günlük serin $streak gün. Öğrenmeye başlamak için aşağıdaki butona basabilirsin.',
+                style: const TextStyle(
+                  color: Colors.white70,
+                  fontSize: 14,
+                  height: 1.5,
+                ),
+              ),
+            ),
+
+            const Spacer(),
+
+            SizedBox(
+              width: double.infinity,
+              height: 54,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LevelSelectionScreen(),
                     ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF5C4AE4),
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18),
                   ),
-                  const SizedBox(height: 14),
-                  Text(
-                    '$totalLearned kelime öğrendin. Günlük hedefin ${widget.dailyWordCount} kelime. Günlük serin $streak gün.',
-                    style: const TextStyle(
-                      color: Colors.white70,
-                      fontSize: 14,
-                      height: 1.5,
-                    ),
+                ),
+                child: const Text(
+                  'Öğrenmeye Başla',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w800,
                   ),
-                ],
+                ),
               ),
             ),
           ],
@@ -183,7 +221,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               value,
               style: const TextStyle(
                 color: Colors.white,
-                fontSize: 20,
+                fontSize: 17,
                 fontWeight: FontWeight.w800,
               ),
             ),
