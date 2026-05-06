@@ -1,7 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'user_service.dart';
+
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final UserService _userService = UserService();
 
   Future<String?> register({
     required String email,
@@ -15,6 +18,8 @@ class AuthService {
       );
 
       await credential.user?.sendEmailVerification();
+
+      await _userService.createUserIfNotExists();
 
       return null;
     } on FirebaseAuthException catch (e) {
@@ -39,6 +44,8 @@ class AuthService {
         await _auth.signOut();
         return 'Lütfen e-posta adresini doğrula.';
       }
+
+      await _userService.createUserIfNotExists();
 
       return null;
     } on FirebaseAuthException catch (e) {
