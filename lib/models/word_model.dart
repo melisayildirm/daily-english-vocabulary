@@ -6,6 +6,20 @@ class WordMeaning {
     required this.meaning,
     required this.type,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'meaning': meaning,
+      'type': type,
+    };
+  }
+
+  factory WordMeaning.fromMap(Map<String, dynamic> map) {
+    return WordMeaning(
+      meaning: map['meaning'] ?? 'Anlam bulunamadı',
+      type: map['type'] ?? 'Bilinmiyor',
+    );
+  }
 }
 
 class WordModel {
@@ -34,5 +48,31 @@ class WordModel {
     return meanings.isNotEmpty
         ? meanings.first.meaning
         : 'Anlam bulunamadı';
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'word': word,
+      'meanings': meanings.map((meaning) => meaning.toMap()).toList(),
+      'exampleSentence': exampleSentence,
+      'level': level,
+    };
+  }
+
+  factory WordModel.fromMap(Map<String, dynamic> map) {
+    return WordModel(
+      id: map['id'] ?? '',
+      word: map['word'] ?? '',
+      meanings: (map['meanings'] as List<dynamic>? ?? [])
+          .map(
+            (item) => WordMeaning.fromMap(
+              Map<String, dynamic>.from(item),
+            ),
+          )
+          .toList(),
+      exampleSentence: map['exampleSentence'] ?? '',
+      level: map['level'] ?? '',
+    );
   }
 }

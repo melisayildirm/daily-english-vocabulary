@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../../services/word_service.dart';
 import '../../services/streak_service.dart';
+import '../../services/user_service.dart';
 import '../level/level_selection_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -13,12 +13,16 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final UserService _userService = UserService();
+
   int streak = 0;
+  int totalLearned = 0;
 
   @override
   void initState() {
     super.initState();
     loadStreak();
+    loadUserStats();
   }
 
   Future<void> loadStreak() async {
@@ -28,6 +32,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     setState(() {
       streak = currentStreak;
+    });
+  }
+
+  Future<void> loadUserStats() async {
+    final learnedWords = await _userService.getLearnedWords();
+
+    if (!mounted) return;
+
+    setState(() {
+      totalLearned = learnedWords.length;
     });
   }
 
@@ -48,9 +62,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final learnedWords = WordService.getLearnedWords();
-    final int totalLearned = learnedWords.length;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profil'),
@@ -113,13 +124,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
               children: [
                 _profileStatCard(
                   title: 'Seviye',
-                  value: 'Henüz seçilmedi',
+                  value: 'Esnek seçim',
                   icon: Icons.school,
                 ),
                 const SizedBox(width: 12),
                 _profileStatCard(
                   title: 'Günlük Hedef',
-                  value: '-',
+                  value: 'Her gün seç',
                   icon: Icons.flag,
                 ),
               ],
@@ -154,7 +165,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 border: Border.all(color: const Color(0xFF3A3A3A)),
               ),
               child: Text(
-                '$totalLearned kelime öğrendin. Günlük serin $streak gün. Öğrenmeye başlamak için aşağıdaki butona basabilirsin.',
+                '$totalLearned kelime öğrendin. Günlük serin $streak gün. Bugün istediğin seviyeyi seçerek öğrenmeye devam edebilirsin.',
                 style: const TextStyle(
                   color: Colors.white70,
                   fontSize: 14,

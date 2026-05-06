@@ -193,4 +193,7 @@ class WordService {
   static List<WordModel> getLearnedWords() {
     return learnedWords;
   }
+  static List<WordModel> getAllWordsByLevel(String level) {
+  return getWordsByLevel(level, 1000);
+}
 }
