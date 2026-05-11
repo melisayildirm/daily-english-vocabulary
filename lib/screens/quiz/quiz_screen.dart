@@ -1,7 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+
 import '../../models/word_model.dart';
-import '../../services/word_service.dart';
+import '../../services/user_service.dart';
 
 class QuizScreen extends StatefulWidget {
   final List<WordModel>? quizWords;
@@ -16,27 +17,45 @@ class QuizScreen extends StatefulWidget {
 }
 
 class _QuizScreenState extends State<QuizScreen> {
-  late List<WordModel> quizWords;
-  late WordModel currentWord;
-  late List<String> options;
+  final UserService _userService = UserService();
 
-  final List<WordModel> wrongWords = [];
+  List<WordModel> quizWords = [];
+  List<String> options = [];
+  List<WordModel> wrongWords = [];
+
+  WordModel? currentWord;
 
   int currentIndex = 0;
   int score = 0;
+
+  bool isLoading = true;
 
   bool get isRetryQuiz => widget.quizWords != null;
 
   @override
   void initState() {
     super.initState();
+    loadQuizWords();
+  }
 
-    quizWords = widget.quizWords ?? List.from(WordService.getLearnedWords());
+  Future<void> loadQuizWords() async {
+    if (widget.quizWords != null) {
+      quizWords = List.from(widget.quizWords!);
+    } else {
+      quizWords = await _userService.getLearnedWords();
+    }
+
     quizWords.shuffle();
 
     if (quizWords.isNotEmpty) {
       prepareQuestion();
     }
+
+    if (!mounted) return;
+
+    setState(() {
+      isLoading = false;
+    });
   }
 
   void prepareQuestion() {
@@ -44,15 +63,15 @@ class _QuizScreenState extends State<QuizScreen> {
 
     final random = Random();
 
-    final wrongOptions = WordService.getLearnedWords()
-        .where((word) => word.id != currentWord.id)
+    final wrongOptions = quizWords
+        .where((word) => word.id != currentWord!.id)
         .map((word) => word.mainMeaning)
         .toSet()
         .toList()
       ..shuffle(random);
 
     options = [
-      currentWord.mainMeaning,
+      currentWord!.mainMeaning,
       ...wrongOptions.take(3),
     ];
 
@@ -60,13 +79,15 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   void checkAnswer(String selectedAnswer) {
-    final bool isCorrect = selectedAnswer == currentWord.mainMeaning;
+    if (currentWord == null) return;
+
+    final bool isCorrect = selectedAnswer == currentWord!.mainMeaning;
 
     if (isCorrect) {
       score++;
     } else {
-      if (!wrongWords.any((word) => word.id == currentWord.id)) {
-        wrongWords.add(currentWord);
+      if (!wrongWords.any((word) => word.id == currentWord!.id)) {
+        wrongWords.add(currentWord!);
       }
     }
 
@@ -78,6 +99,8 @@ class _QuizScreenState extends State<QuizScreen> {
     );
 
     Future.delayed(const Duration(milliseconds: 800), () {
+      if (!mounted) return;
+
       if (currentIndex < quizWords.length - 1) {
         setState(() {
           currentIndex++;
@@ -154,6 +177,18 @@ class _QuizScreenState extends State<QuizScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Quiz'),
+          centerTitle: true,
+        ),
+        body: const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
     if (quizWords.isEmpty) {
       return Scaffold(
         appBar: AppBar(
@@ -200,7 +235,7 @@ class _QuizScreenState extends State<QuizScreen> {
             ),
             const SizedBox(height: 20),
             Text(
-              currentWord.word,
+              currentWord?.word ?? '',
               style: const TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.bold,

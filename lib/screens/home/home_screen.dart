@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../models/word_model.dart';
-import '../../services/word_service.dart';
 import '../../services/user_service.dart';
+import '../../services/word_database_service.dart';
 import '../learned/learned_words_screen.dart';
 import '../profile/profile_screen.dart';
 import '../quiz/quiz_screen.dart';
@@ -24,6 +24,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final UserService _userService = UserService();
+  final WordDatabaseService _wordDatabaseService = WordDatabaseService();
 
   List<WordModel> words = [];
 
@@ -44,20 +45,18 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> loadWords() async {
     learnedWordIds = await _userService.getLearnedWordIds();
 
-    final allLevelWords =
-        WordService.getAllWordsByLevel(widget.selectedLevel);
-
-    final unlearnedWords = allLevelWords
-        .where((word) => !learnedWordIds.contains(word.id))
-        .take(widget.dailyWordCount)
-        .toList();
+    final firestoreWords = await _wordDatabaseService.getWordsByLevel(
+      level: widget.selectedLevel,
+      count: widget.dailyWordCount,
+      learnedWordIds: learnedWordIds,
+    );
 
     final learnedWords = await _userService.getLearnedWords();
 
     if (!mounted) return;
 
     setState(() {
-      words = unlearnedWords;
+      words = firestoreWords;
       totalLearnedCount = learnedWords.length;
       isLoading = false;
     });
@@ -76,13 +75,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
     setState(() {
       learnedWordIds.add(word.id);
-
       todayLearnedWordIds.add(word.id);
-
       words.removeWhere((item) => item.id == word.id);
-
       totalLearnedCount++;
-
       isSaving = false;
     });
   }
@@ -90,21 +85,13 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final int totalWords = widget.dailyWordCount;
-
-    final int learnedTodayCount =
-        todayLearnedWordIds.length;
-
-    final double progress =
-        totalWords == 0
-            ? 0
-            : learnedTodayCount / totalWords;
+    final int learnedTodayCount = todayLearnedWordIds.length;
+    final double progress = totalWords == 0 ? 0 : learnedTodayCount / totalWords;
 
     return Scaffold(
       body: SafeArea(
         child: isLoading
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
+            ? const Center(child: CircularProgressIndicator())
             : Column(
                 children: [
                   Container(
@@ -117,8 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     child: Column(
-                      crossAxisAlignment:
-                          CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           '${widget.selectedLevel} Seviyesi',
@@ -127,9 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             fontSize: 13,
                           ),
                         ),
-
                         const SizedBox(height: 4),
-
                         Text(
                           'Bugün ${widget.dailyWordCount} kelime öğren',
                           style: const TextStyle(
@@ -138,58 +122,40 @@ class _HomeScreenState extends State<HomeScreen> {
                             fontWeight: FontWeight.w800,
                           ),
                         ),
-
                         const SizedBox(height: 16),
-
                         Container(
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
                             color: Colors.white.withOpacity(0.14),
-                            borderRadius:
-                                BorderRadius.circular(16),
+                            borderRadius: BorderRadius.circular(16),
                           ),
                           child: Column(
                             children: [
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment
-                                        .spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   const Text(
                                     'Günlük ilerleme',
-                                    style: TextStyle(
-                                      color:
-                                          Colors.white70,
-                                    ),
+                                    style: TextStyle(color: Colors.white70),
                                   ),
                                   Text(
                                     '$learnedTodayCount / $totalWords',
-                                    style:
-                                        const TextStyle(
-                                      color:
-                                          Colors.white,
-                                      fontWeight:
-                                          FontWeight
-                                              .w700,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w700,
                                     ),
                                   ),
                                 ],
                               ),
-
                               const SizedBox(height: 8),
-
                               ClipRRect(
-                                borderRadius:
-                                    BorderRadius.circular(
-                                        10),
-                                child:
-                                    LinearProgressIndicator(
+                                borderRadius: BorderRadius.circular(10),
+                                child: LinearProgressIndicator(
                                   value: progress,
                                   minHeight: 7,
-                                  backgroundColor:
-                                      Colors.white24,
-                                  color: const Color(
-                                      0xFFA8F0C6),
+                                  backgroundColor: Colors.white24,
+                                  color: const Color(0xFFA8F0C6),
                                 ),
                               ),
                             ],
@@ -198,47 +164,28 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
-
                   const SizedBox(height: 14),
-
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Row(
                       children: [
-                        _statBox(
-                          '$learnedTodayCount',
-                          'Bugün',
-                        ),
-
-                        _statBox(
-                          '$totalLearnedCount',
-                          'Toplam',
-                        ),
-
-                        _statBox(
-                          '${(progress * 100).toInt()}%',
-                          'İlerleme',
-                        ),
+                        _statBox('$learnedTodayCount', 'Bugün'),
+                        _statBox('$totalLearnedCount', 'Toplam'),
+                        _statBox('${(progress * 100).toInt()}%', 'İlerleme'),
                       ],
                     ),
                   ),
-
                   const SizedBox(height: 14),
-
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Wrap(
                       spacing: 10,
                       runSpacing: 10,
                       children: [
                         _smallActionButton(
                           title: 'Öğrenilenler',
-                          color:
-                              const Color(0xFFE8F9F2),
-                          textColor:
-                              const Color(0xFF0D4E34),
+                          color: const Color(0xFFE8F9F2),
+                          textColor: const Color(0xFF0D4E34),
                           onTap: () async {
                             await Navigator.push(
                               context,
@@ -249,36 +196,28 @@ class _HomeScreenState extends State<HomeScreen> {
                             );
                           },
                         ),
-
                         _smallActionButton(
                           title: 'Quiz',
-                          color:
-                              const Color(0xFFEEF0FF),
-                          textColor:
-                              const Color(0xFF2A1E8F),
+                          color: const Color(0xFFEEF0FF),
+                          textColor: const Color(0xFF2A1E8F),
                           onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    const QuizScreen(),
+                                builder: (context) => const QuizScreen(),
                               ),
                             );
                           },
                         ),
-
                         _smallActionButton(
                           title: 'Profil',
-                          color:
-                              const Color(0xFFEDEBFF),
-                          textColor:
-                              const Color(0xFF2A1E8F),
+                          color: const Color(0xFFEDEBFF),
+                          textColor: const Color(0xFF2A1E8F),
                           onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    const ProfileScreen(),
+                                builder: (context) => const ProfileScreen(),
                               ),
                             );
                           },
@@ -286,134 +225,84 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
-
                   const SizedBox(height: 10),
-
                   Expanded(
                     child: words.isEmpty
                         ? const Center(
                             child: Padding(
-                              padding:
-                                  EdgeInsets.all(24),
+                              padding: EdgeInsets.all(24),
                               child: Text(
                                 'Bu seviyedeki tüm kelimeleri öğrendin.',
-                                textAlign:
-                                    TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                ),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 16),
                               ),
                             ),
                           )
                         : ListView.builder(
-                            padding:
-                                const EdgeInsets.all(16),
+                            padding: const EdgeInsets.all(16),
                             itemCount: words.length,
-                            itemBuilder:
-                                (context, index) {
-                              final word =
-                                  words[index];
+                            itemBuilder: (context, index) {
+                              final word = words[index];
 
                               return GestureDetector(
                                 onTap: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder:
-                                          (context) =>
-                                              WordDetailScreen(
-                                        word: word,
-                                      ),
+                                      builder: (context) =>
+                                          WordDetailScreen(word: word),
                                     ),
                                   );
                                 },
                                 child: Container(
-                                  margin:
-                                      const EdgeInsets
-                                          .only(
-                                    bottom: 14,
-                                  ),
-                                  padding:
-                                      const EdgeInsets
-                                          .all(16),
-                                  decoration:
-                                      BoxDecoration(
-                                    color: const Color(
-                                        0xFF2A2A2A),
-                                    borderRadius:
-                                        BorderRadius
-                                            .circular(
-                                                22),
+                                  margin: const EdgeInsets.only(bottom: 14),
+                                  padding: const EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFF2A2A2A),
+                                    borderRadius: BorderRadius.circular(22),
                                     border: Border.all(
-                                      color:
-                                          const Color(
-                                              0xFF3A3A3A),
+                                      color: const Color(0xFF3A3A3A),
                                     ),
                                   ),
                                   child: Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment
-                                            .start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         word.word,
-                                        style:
-                                            const TextStyle(
-                                          color: Colors
-                                              .white,
+                                        style: const TextStyle(
+                                          color: Colors.white,
                                           fontSize: 24,
-                                          fontWeight:
-                                              FontWeight
-                                                  .w800,
+                                          fontWeight: FontWeight.w800,
                                         ),
                                       ),
-
-                                      const SizedBox(
-                                          height: 8),
-
+                                      const SizedBox(height: 8),
                                       Text(
                                         word.mainMeaning,
-                                        style:
-                                            const TextStyle(
-                                          color: Color(
-                                              0xFFA8F0C6),
+                                        style: const TextStyle(
+                                          color: Color(0xFFA8F0C6),
                                           fontSize: 16,
-                                          fontWeight:
-                                              FontWeight
-                                                  .w600,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-
-                                      const SizedBox(
-                                          height: 8),
-
+                                      const SizedBox(height: 8),
                                       Text(
-                                        word
-                                            .exampleSentence,
-                                        style:
-                                            const TextStyle(
-                                          color: Colors
-                                              .white70,
+                                        word.exampleSentence.isEmpty
+                                            ? 'Örnek cümle daha sonra eklenecek.'
+                                            : word.exampleSentence,
+                                        style: const TextStyle(
+                                          color: Colors.white70,
                                           fontSize: 14,
                                           height: 1.4,
                                         ),
                                       ),
-
-                                      const SizedBox(
-                                          height: 14),
-
+                                      const SizedBox(height: 14),
                                       SizedBox(
-                                        width: double
-                                            .infinity,
-                                        child:
-                                            ElevatedButton(
-                                          onPressed:
-                                              isSaving
-                                                  ? null
-                                                  : () =>
-                                                      markWordAsLearned(
-                                                        word,
-                                                      ),
+                                        width: double.infinity,
+                                        child: ElevatedButton(
+                                          onPressed: isSaving
+                                              ? null
+                                              : () => markWordAsLearned(word),
                                           child: Text(
                                             isSaving
                                                 ? 'Kaydediliyor...'
@@ -434,22 +323,15 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _statBox(
-    String value,
-    String label,
-  ) {
+  Widget _statBox(String value, String label) {
     return Expanded(
       child: Container(
-        margin:
-            const EdgeInsets.symmetric(horizontal: 4),
-        padding:
-            const EdgeInsets.symmetric(vertical: 14),
+        margin: const EdgeInsets.symmetric(horizontal: 4),
+        padding: const EdgeInsets.symmetric(vertical: 14),
         decoration: BoxDecoration(
           color: const Color(0xFF2A2A2A),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: const Color(0xFF3A3A3A),
-          ),
+          border: Border.all(color: const Color(0xFF3A3A3A)),
         ),
         child: Column(
           children: [
@@ -461,9 +343,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 fontWeight: FontWeight.w800,
               ),
             ),
-
             const SizedBox(height: 4),
-
             Text(
               label,
               style: const TextStyle(
@@ -488,13 +368,10 @@ class _HomeScreenState extends State<HomeScreen> {
       child: GestureDetector(
         onTap: onTap,
         child: Container(
-          padding: const EdgeInsets.symmetric(
-            vertical: 14,
-          ),
+          padding: const EdgeInsets.symmetric(vertical: 14),
           decoration: BoxDecoration(
             color: color,
-            borderRadius:
-                BorderRadius.circular(18),
+            borderRadius: BorderRadius.circular(18),
           ),
           child: Text(
             title,
