@@ -65,10 +65,8 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       words = firestoreWords;
       totalLearnedCount = learnedWords.length;
-
       todayLearnedWords = todayWords;
       todayLearnedWordIds = todayWords.map((word) => word.id).toSet();
-
       isLoading = false;
     });
   }
@@ -89,10 +87,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
     setState(() {
       learnedWordIds.add(word.id);
-
       todayLearnedWords = todayWords;
       todayLearnedWordIds = todayWords.map((item) => item.id).toSet();
-
       words.removeWhere((item) => item.id == word.id);
       totalLearnedCount = learnedWords.length;
       isSaving = false;
@@ -107,6 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
         totalWords == 0 ? 0 : learnedTodayCount / totalWords;
 
     return Scaffold(
+      backgroundColor: const Color(0xFFF4F5FA),
       body: SafeArea(
         child: isLoading
             ? const Center(child: CircularProgressIndicator())
@@ -173,7 +170,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   value: progress > 1 ? 1 : progress,
                                   minHeight: 7,
                                   backgroundColor: Colors.white24,
-                                  color: const Color(0xFFA8F0C6),
+                                  color: const Color(0xFFDAD7FF),
                                 ),
                               ),
                             ],
@@ -199,9 +196,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SizedBox(height: 14),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Wrap(
-                      spacing: 10,
-                      runSpacing: 10,
+                    child: Row(
                       children: [
                         _smallActionButton(
                           title: 'Öğrenilenler',
@@ -221,7 +216,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         _smallActionButton(
                           title: 'Quiz',
-                          color: const Color(0xFFEEF0FF),
+                          color: const Color(0xFFEDEBFF),
                           textColor: const Color(0xFF2A1E8F),
                           onTap: () async {
                             final todayWords =
@@ -290,11 +285,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                   margin: const EdgeInsets.only(bottom: 14),
                                   padding: const EdgeInsets.all(16),
                                   decoration: BoxDecoration(
-                                    color: const Color(0xFF2A2A2A),
+                                    color: Colors.white,
                                     borderRadius: BorderRadius.circular(22),
                                     border: Border.all(
-                                      color: const Color(0xFF3A3A3A),
+                                      color: const Color(0xFFE8E8E8),
                                     ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.04),
+                                        blurRadius: 14,
+                                        offset: const Offset(0, 8),
+                                      ),
+                                    ],
                                   ),
                                   child: Column(
                                     crossAxisAlignment:
@@ -303,7 +305,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       Text(
                                         word.word,
                                         style: const TextStyle(
-                                          color: Colors.white,
+                                          color: Color(0xFF222222),
                                           fontSize: 24,
                                           fontWeight: FontWeight.w800,
                                         ),
@@ -312,9 +314,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                       Text(
                                         word.mainMeaning,
                                         style: const TextStyle(
-                                          color: Color(0xFFA8F0C6),
+                                          color: Color(0xFF6C63FF),
                                           fontSize: 16,
-                                          fontWeight: FontWeight.w600,
+                                          fontWeight: FontWeight.w700,
                                         ),
                                       ),
                                       const SizedBox(height: 8),
@@ -323,7 +325,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             ? 'AI ile örnek cümle oluşturabilirsin.'
                                             : word.exampleSentence,
                                         style: const TextStyle(
-                                          color: Colors.white70,
+                                          color: Color(0xFF666666),
                                           fontSize: 14,
                                           height: 1.4,
                                         ),
@@ -331,14 +333,28 @@ class _HomeScreenState extends State<HomeScreen> {
                                       const SizedBox(height: 14),
                                       SizedBox(
                                         width: double.infinity,
+                                        height: 48,
                                         child: ElevatedButton(
                                           onPressed: isSaving
                                               ? null
                                               : () => markWordAsLearned(word),
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor:
+                                                const Color(0xFF6C63FF),
+                                            foregroundColor: Colors.white,
+                                            elevation: 0,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(16),
+                                            ),
+                                          ),
                                           child: Text(
                                             isSaving
                                                 ? 'Kaydediliyor...'
                                                 : 'Öğrendim',
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -361,16 +377,23 @@ class _HomeScreenState extends State<HomeScreen> {
         margin: const EdgeInsets.symmetric(horizontal: 4),
         padding: const EdgeInsets.symmetric(vertical: 14),
         decoration: BoxDecoration(
-          color: const Color(0xFF2A2A2A),
+          color: Colors.white,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: const Color(0xFF3A3A3A)),
+          border: Border.all(color: const Color(0xFFE8E8E8)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.04),
+              blurRadius: 12,
+              offset: const Offset(0, 6),
+            ),
+          ],
         ),
         child: Column(
           children: [
             Text(
               value,
               style: const TextStyle(
-                color: Color(0xFFA8F0C6),
+                color: Color(0xFF6C63FF),
                 fontSize: 18,
                 fontWeight: FontWeight.w800,
               ),
@@ -379,7 +402,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Text(
               label,
               style: const TextStyle(
-                color: Colors.white60,
+                color: Color(0xFF777777),
                 fontSize: 12,
               ),
             ),
@@ -395,23 +418,48 @@ class _HomeScreenState extends State<HomeScreen> {
     required Color textColor,
     required VoidCallback onTap,
   }) {
-    return SizedBox(
-      width: 150,
+    IconData icon;
+
+    if (title == 'Öğrenilenler') {
+      icon = Icons.check_circle_outline;
+    } else if (title == 'Quiz') {
+      icon = Icons.quiz_outlined;
+    } else {
+      icon = Icons.person_outline;
+    }
+
+    return Expanded(
       child: GestureDetector(
         onTap: onTap,
         child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 14),
+          height: 58,
+          margin: const EdgeInsets.symmetric(horizontal: 4),
           decoration: BoxDecoration(
             color: color,
             borderRadius: BorderRadius.circular(18),
-          ),
-          child: Text(
-            title,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: textColor,
-              fontWeight: FontWeight.w800,
+            border: Border.all(
+              color: textColor.withOpacity(0.15),
             ),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
+                size: 20,
+                color: textColor,
+              ),
+              const SizedBox(height: 4),
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: textColor,
+                  fontSize: 11,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+            ],
           ),
         ),
       ),
