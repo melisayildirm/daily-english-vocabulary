@@ -11,37 +11,41 @@ class DailyEnglishApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
-        scaffoldBackgroundColor: const Color(0xFF1F1F1F),
         fontFamily: 'Roboto',
 
+        scaffoldBackgroundColor: const Color(0xFFF6F7FB),
+
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF5C4AE4),
-          brightness: Brightness.dark,
-          primary: const Color(0xFF5C4AE4),
-          secondary: const Color(0xFFA8F0C6),
-          surface: const Color(0xFF2A2A2A),
+          seedColor: const Color(0xFF6C63FF),
+          brightness: Brightness.light,
+          primary: const Color(0xFF6C63FF),
+          secondary: const Color(0xFF7ED6A7),
+          surface: Colors.white,
         ),
 
         appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xFF1F1F1F),
+          backgroundColor: Color(0xFFF6F7FB),
           elevation: 0,
           centerTitle: true,
+          scrolledUnderElevation: 0,
           titleTextStyle: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.w700,
+            color: Color(0xFF1E1E1E),
+            fontSize: 22,
+            fontWeight: FontWeight.w800,
           ),
-          iconTheme: IconThemeData(color: Colors.white),
+          iconTheme: IconThemeData(
+            color: Color(0xFF1E1E1E),
+          ),
         ),
 
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF5C4AE4),
+            backgroundColor: const Color(0xFF6C63FF),
             foregroundColor: Colors.white,
             elevation: 0,
-            minimumSize: const Size(0, 52),
+            minimumSize: const Size(0, 56),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(18),
             ),
             textStyle: const TextStyle(
               fontSize: 15,
@@ -52,57 +56,78 @@ class DailyEnglishApp extends StatelessWidget {
 
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(
-            foregroundColor: const Color(0xFFA8F0C6),
-            side: const BorderSide(color: Color(0xFFA8F0C6)),
-            minimumSize: const Size(0, 52),
+            foregroundColor: const Color(0xFF6C63FF),
+            side: const BorderSide(
+              color: Color(0xFF6C63FF),
+            ),
+            minimumSize: const Size(0, 56),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(18),
             ),
           ),
         ),
 
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
-          fillColor: const Color(0xFF2A2A2A),
-          labelStyle: const TextStyle(color: Color(0xFFBDBDBD)),
-          hintStyle: const TextStyle(color: Color(0xFF8A8A8A)),
-          prefixIconColor: const Color(0xFFA8F0C6),
+          fillColor: Colors.white,
+          labelStyle: const TextStyle(
+            color: Color(0xFF7A7A7A),
+          ),
+          hintStyle: const TextStyle(
+            color: Color(0xFFAAAAAA),
+          ),
+          prefixIconColor: const Color(0xFF6C63FF),
+
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 18,
-            vertical: 16,
+            vertical: 18,
           ),
+
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
-            borderSide: const BorderSide(color: Color(0xFF3A3A3A)),
+            borderRadius: BorderRadius.circular(18),
+            borderSide: BorderSide.none,
           ),
+
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
-            borderSide: const BorderSide(color: Color(0xFF3A3A3A)),
+            borderRadius: BorderRadius.circular(18),
+            borderSide: BorderSide.none,
           ),
+
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
-            borderSide: const BorderSide(color: Color(0xFF5C4AE4), width: 1.6),
+            borderRadius: BorderRadius.circular(18),
+            borderSide: const BorderSide(
+              color: Color(0xFF6C63FF),
+              width: 1.5,
+            ),
           ),
         ),
 
         cardTheme: CardThemeData(
-          color: const Color(0xFF2A2A2A),
+          color: Colors.white,
           elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(22),
-            side: const BorderSide(color: Color(0xFF3A3A3A)),
+            borderRadius: BorderRadius.circular(24),
           ),
         ),
 
         snackBarTheme: SnackBarThemeData(
-          backgroundColor: const Color(0xFF2A2A2A),
+          backgroundColor: const Color(0xFF1E1E1E),
           contentTextStyle: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.w600,
           ),
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(16),
+          ),
+        ),
+
+        textTheme: const TextTheme(
+          bodyLarge: TextStyle(
+            color: Color(0xFF1E1E1E),
+          ),
+          bodyMedium: TextStyle(
+            color: Color(0xFF444444),
           ),
         ),
       ),

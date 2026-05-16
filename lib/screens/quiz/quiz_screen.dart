@@ -6,10 +6,14 @@ import '../../services/user_service.dart';
 
 class QuizScreen extends StatefulWidget {
   final List<WordModel>? quizWords;
+  final List<WordModel>? todayWords;
+  final String? quizTitle;
 
   const QuizScreen({
     super.key,
     this.quizWords,
+    this.todayWords,
+    this.quizTitle,
   });
 
   @override
@@ -19,6 +23,7 @@ class QuizScreen extends StatefulWidget {
 class _QuizScreenState extends State<QuizScreen> {
   final UserService _userService = UserService();
 
+  List<WordModel> allLearnedWords = [];
   List<WordModel> quizWords = [];
   List<String> options = [];
   List<WordModel> wrongWords = [];
@@ -29,32 +34,48 @@ class _QuizScreenState extends State<QuizScreen> {
   int score = 0;
 
   bool isLoading = true;
+  bool quizStarted = false;
 
   bool get isRetryQuiz => widget.quizWords != null;
 
   @override
   void initState() {
     super.initState();
-    loadQuizWords();
+    loadQuizData();
   }
 
-  Future<void> loadQuizWords() async {
+  Future<void> loadQuizData() async {
     if (widget.quizWords != null) {
       quizWords = List.from(widget.quizWords!);
+      quizStarted = true;
+      quizWords.shuffle();
+
+      if (quizWords.isNotEmpty) {
+        prepareQuestion();
+      }
     } else {
-      quizWords = await _userService.getLearnedWords();
-    }
-
-    quizWords.shuffle();
-
-    if (quizWords.isNotEmpty) {
-      prepareQuestion();
+      allLearnedWords = await _userService.getLearnedWords();
     }
 
     if (!mounted) return;
 
     setState(() {
       isLoading = false;
+    });
+  }
+
+  void startQuiz(List<WordModel> selectedWords) {
+    setState(() {
+      quizWords = List.from(selectedWords);
+      quizWords.shuffle();
+      wrongWords = [];
+      currentIndex = 0;
+      score = 0;
+      quizStarted = true;
+
+      if (quizWords.isNotEmpty) {
+        prepareQuestion();
+      }
     });
   }
 
@@ -156,6 +177,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     MaterialPageRoute(
                       builder: (context) => QuizScreen(
                         quizWords: List.from(wrongWords),
+                        quizTitle: 'Yanlışları Tekrar Et',
                       ),
                     ),
                   );
@@ -189,6 +211,10 @@ class _QuizScreenState extends State<QuizScreen> {
       );
     }
 
+    if (!quizStarted && !isRetryQuiz) {
+      return _buildQuizSelectionScreen();
+    }
+
     if (quizWords.isEmpty) {
       return Scaffold(
         appBar: AppBar(
@@ -211,7 +237,7 @@ class _QuizScreenState extends State<QuizScreen> {
           child: Padding(
             padding: EdgeInsets.all(20),
             child: Text(
-              'Quiz başlatmak için en az 4 kelime öğrenmelisin.',
+              'Quiz başlatmak için en az 4 kelime gerekir.',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 18),
             ),
@@ -222,7 +248,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(isRetryQuiz ? 'Yanlışları Tekrar Et' : 'Quiz'),
+        title: Text(widget.quizTitle ?? 'Quiz'),
         centerTitle: true,
       ),
       body: Padding(
@@ -256,6 +282,133 @@ class _QuizScreenState extends State<QuizScreen> {
             }),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildQuizSelectionScreen() {
+    final todayWords = widget.todayWords ?? [];
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Quiz Seç'),
+        centerTitle: true,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            _quizOptionCard(
+              title: 'Bugünkü Kelimelerden Quiz',
+              description:
+                  'Sadece bugün öğrendiğin kelimelerle kısa bir quiz çöz.',
+              wordCount: todayWords.length,
+              icon: Icons.today,
+              onTap: () {
+                if (todayWords.length < 4) {
+                  _showWarning(
+                    'Bugünkü kelimelerle quiz için en az 4 kelime öğrenmelisin.',
+                  );
+                  return;
+                }
+
+                startQuiz(todayWords);
+              },
+            ),
+
+            const SizedBox(height: 16),
+
+            _quizOptionCard(
+              title: 'Tüm Öğrenilenlerden Quiz',
+              description:
+                  'Şimdiye kadar öğrendiğin tüm kelimelerden karışık quiz çöz.',
+              wordCount: allLearnedWords.length,
+              icon: Icons.menu_book,
+              onTap: () {
+                if (allLearnedWords.length < 4) {
+                  _showWarning(
+                    'Genel quiz için en az 4 kelime öğrenmelisin.',
+                  );
+                  return;
+                }
+
+                startQuiz(allLearnedWords);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _quizOptionCard({
+    required String title,
+    required String description,
+    required int wordCount,
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(18),
+        decoration: BoxDecoration(
+          color: const Color(0xFF2A2A2A),
+          borderRadius: BorderRadius.circular(22),
+          border: Border.all(color: const Color(0xFF3A3A3A)),
+        ),
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              color: const Color(0xFFA8F0C6),
+              size: 32,
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 17,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    description,
+                    style: const TextStyle(
+                      color: Colors.white70,
+                      fontSize: 13,
+                      height: 1.4,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    '$wordCount kelime',
+                    style: const TextStyle(
+                      color: Color(0xFFA8F0C6),
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showWarning(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
       ),
     );
   }

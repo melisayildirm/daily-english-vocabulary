@@ -8,7 +8,7 @@ import '../models/word_model.dart';
 class WordDatabaseService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  final List<String> levels = ['a1', 'a2', 'b1', 'b2', 'c1'];
+  final List<String> levels = ['a1', 'a2', 'b1', 'b2', 'c1', 'c2'];
 
   Future<void> uploadAllWordsToFirestore() async {
     for (final level in levels) {
@@ -50,26 +50,29 @@ class WordDatabaseService {
       await batch.commit();
     }
   }
-
-  Future<List<WordModel>> getWordsByLevel({
-    required String level,
-    required int count,
-    required Set<String> learnedWordIds,
-  }) async {
-    final snapshot = await _firestore
-        .collection('words')
-        .where('level', isEqualTo: level)
-        .limit(1000)
-        .get();
-
-    final words = snapshot.docs
-        .map((doc) => WordModel.fromMap(doc.data()))
-        .where((word) => !learnedWordIds.contains(word.id))
-        .take(count)
-        .toList();
-
-    return words;
+  Future<void> uploadC2WordsToFirestore() async {
+    await _uploadWordsByLevel('c2');
   }
+  Future<List<WordModel>> getWordsByLevel({
+  required String level,
+  required int count,
+  required Set<String> learnedWordIds,
+}) async {
+  final snapshot = await _firestore
+      .collection('words')
+      .where('level', isEqualTo: level)
+      .limit(1000)
+      .get();
+
+  final words = snapshot.docs
+      .map((doc) => WordModel.fromMap(doc.data()))
+      .where((word) => !learnedWordIds.contains(word.id))
+      .toList();
+
+  words.shuffle();
+
+  return words.take(count).toList();
+}
 
   Future<int> getWordCount() async {
     final snapshot = await _firestore.collection('words').get();

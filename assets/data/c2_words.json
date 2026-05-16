@@ -1,0 +1,1700 @@
+[
+  {
+    "id": "c2_aberration",
+    "word": "aberration",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "sapma",
+        "type": "isim"
+      },
+      {
+        "meaning": "normal dışı durum",
+        "type": "isim"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_ambiguous",
+    "word": "ambiguous",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "belirsiz",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "iki anlama gelebilen",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_ambivalent",
+    "word": "ambivalent",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "kararsız",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "çelişkili duygular içinde olan",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_anomaly",
+    "word": "anomaly",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "anormallik",
+        "type": "isim"
+      },
+      {
+        "meaning": "olağan dışı durum",
+        "type": "isim"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_arbitrary",
+    "word": "arbitrary",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "keyfi",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "rastgele",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_articulate",
+    "word": "articulate",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "açıkça ifade etmek",
+        "type": "fiil"
+      },
+      {
+        "meaning": "düşüncelerini iyi ifade eden",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_austere",
+    "word": "austere",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "sade",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "sert",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "gösterişsiz",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_candid",
+    "word": "candid",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "samimi",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "dürüst",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "açık sözlü",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_coherent",
+    "word": "coherent",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "tutarlı",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "anlaşılır",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_compelling",
+    "word": "compelling",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "ikna edici",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "etkileyici",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_concede",
+    "word": "concede",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "kabul etmek",
+        "type": "fiil"
+      },
+      {
+        "meaning": "istemeyerek razı olmak",
+        "type": "fiil"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_concur",
+    "word": "concur",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "aynı fikirde olmak",
+        "type": "fiil"
+      },
+      {
+        "meaning": "örtüşmek",
+        "type": "fiil"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_conspicuous",
+    "word": "conspicuous",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "göze çarpan",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "belirgin",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_contemplate",
+    "word": "contemplate",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "derinlemesine düşünmek",
+        "type": "fiil"
+      },
+      {
+        "meaning": "düşünmek",
+        "type": "fiil"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_contentious",
+    "word": "contentious",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "tartışmalı",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "çekişmeli",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_conundrum",
+    "word": "conundrum",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "çözülmesi zor sorun",
+        "type": "isim"
+      },
+      {
+        "meaning": "bilmece",
+        "type": "isim"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_corroborate",
+    "word": "corroborate",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "doğrulamak",
+        "type": "fiil"
+      },
+      {
+        "meaning": "desteklemek",
+        "type": "fiil"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_culminate",
+    "word": "culminate",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "sonuçlanmak",
+        "type": "fiil"
+      },
+      {
+        "meaning": "zirveye ulaşmak",
+        "type": "fiil"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_debilitate",
+    "word": "debilitate",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "zayıflatmak",
+        "type": "fiil"
+      },
+      {
+        "meaning": "güçsüz düşürmek",
+        "type": "fiil"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_detrimental",
+    "word": "detrimental",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "zararlı",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "olumsuz etkili",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_dichotomy",
+    "word": "dichotomy",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "ikilik",
+        "type": "isim"
+      },
+      {
+        "meaning": "keskin ayrım",
+        "type": "isim"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_discrepancy",
+    "word": "discrepancy",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "uyuşmazlık",
+        "type": "isim"
+      },
+      {
+        "meaning": "tutarsızlık",
+        "type": "isim"
+      },
+      {
+        "meaning": "fark",
+        "type": "isim"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_disdain",
+    "word": "disdain",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "küçümseme",
+        "type": "isim"
+      },
+      {
+        "meaning": "küçümsemek",
+        "type": "fiil"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_dispel",
+    "word": "dispel",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "dağıtmak",
+        "type": "fiil"
+      },
+      {
+        "meaning": "ortadan kaldırmak",
+        "type": "fiil"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_elicit",
+    "word": "elicit",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "ortaya çıkarmak",
+        "type": "fiil"
+      },
+      {
+        "meaning": "elde etmek",
+        "type": "fiil"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_eloquent",
+    "word": "eloquent",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "etkili konuşan",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "güzel ve etkileyici ifade edilen",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_elusive",
+    "word": "elusive",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "ele geçirilmesi zor",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "anlaşılması zor",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_empirical",
+    "word": "empirical",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "deneysel",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "gözleme dayalı",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_encompass",
+    "word": "encompass",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "kapsamak",
+        "type": "fiil"
+      },
+      {
+        "meaning": "içermek",
+        "type": "fiil"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_endorse",
+    "word": "endorse",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "onaylamak",
+        "type": "fiil"
+      },
+      {
+        "meaning": "desteklemek",
+        "type": "fiil"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_entail",
+    "word": "entail",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "gerektirmek",
+        "type": "fiil"
+      },
+      {
+        "meaning": "sonuç olarak içermek",
+        "type": "fiil"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_ephemeral",
+    "word": "ephemeral",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "kısa ömürlü",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "geçici",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_equivocal",
+    "word": "equivocal",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "belirsiz",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "muğlak",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_erudite",
+    "word": "erudite",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "bilgili",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "alim",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_exacerbate",
+    "word": "exacerbate",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "kötüleştirmek",
+        "type": "fiil"
+      },
+      {
+        "meaning": "şiddetlendirmek",
+        "type": "fiil"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_exemplify",
+    "word": "exemplify",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "örneklemek",
+        "type": "fiil"
+      },
+      {
+        "meaning": "örneği olmak",
+        "type": "fiil"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_exhaustive",
+    "word": "exhaustive",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "kapsamlı",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "tüm olasılıkları içeren",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_feasible",
+    "word": "feasible",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "uygulanabilir",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "mümkün",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_formidable",
+    "word": "formidable",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "zorlu",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "göz korkutucu",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_galvanize",
+    "word": "galvanize",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "harekete geçirmek",
+        "type": "fiil"
+      },
+      {
+        "meaning": "teşvik etmek",
+        "type": "fiil"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_gratuitous",
+    "word": "gratuitous",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "gereksiz",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "karşılıksız",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_hypothetical",
+    "word": "hypothetical",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "varsayımsal",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "farazi",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_impeccable",
+    "word": "impeccable",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "kusursuz",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "mükemmel",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_imperative",
+    "word": "imperative",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "zorunlu",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "acil gereklilik",
+        "type": "isim"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_impetus",
+    "word": "impetus",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "itici güç",
+        "type": "isim"
+      },
+      {
+        "meaning": "dürtü",
+        "type": "isim"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_inadvertently",
+    "word": "inadvertently",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "yanlışlıkla",
+        "type": "zarf"
+      },
+      {
+        "meaning": "farkında olmadan",
+        "type": "zarf"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_incongruous",
+    "word": "incongruous",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "uyumsuz",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "yakışıksız",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_indispensable",
+    "word": "indispensable",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "vazgeçilmez",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "zorunlu",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_inevitable",
+    "word": "inevitable",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "kaçınılmaz",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "önlenemez",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_infer",
+    "word": "infer",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "sonuç çıkarmak",
+        "type": "fiil"
+      },
+      {
+        "meaning": "çıkarım yapmak",
+        "type": "fiil"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_ingrained",
+    "word": "ingrained",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "kökleşmiş",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "yerleşmiş",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_inhibit",
+    "word": "inhibit",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "engellemek",
+        "type": "fiil"
+      },
+      {
+        "meaning": "baskılamak",
+        "type": "fiil"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_innate",
+    "word": "innate",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "doğuştan gelen",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "içsel",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_inscrutable",
+    "word": "inscrutable",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "anlaşılmaz",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "çözülmesi zor",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_insidious",
+    "word": "insidious",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "sinsi",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "gizlice zarar veren",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_intricate",
+    "word": "intricate",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "karmaşık",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "ayrıntılı",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_invariably",
+    "word": "invariably",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "daima",
+        "type": "zarf"
+      },
+      {
+        "meaning": "istisnasız şekilde",
+        "type": "zarf"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_juxtapose",
+    "word": "juxtapose",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "yan yana koymak",
+        "type": "fiil"
+      },
+      {
+        "meaning": "karşılaştırmak amacıyla birlikte sunmak",
+        "type": "fiil"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_lucid",
+    "word": "lucid",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "açık",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "anlaşılır",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "berrak",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_meticulous",
+    "word": "meticulous",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "titiz",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "çok dikkatli",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_mitigate",
+    "word": "mitigate",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "hafifletmek",
+        "type": "fiil"
+      },
+      {
+        "meaning": "azaltmak",
+        "type": "fiil"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_mundane",
+    "word": "mundane",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "sıradan",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "gündelik",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_nuance",
+    "word": "nuance",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "ince fark",
+        "type": "isim"
+      },
+      {
+        "meaning": "nüans",
+        "type": "isim"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_obscure",
+    "word": "obscure",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "belirsiz",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "gizlemek",
+        "type": "fiil"
+      },
+      {
+        "meaning": "anlaşılmasını zorlaştırmak",
+        "type": "fiil"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_obsolete",
+    "word": "obsolete",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "modası geçmiş",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "kullanımdan kalkmış",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_omnipresent",
+    "word": "omnipresent",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "her yerde bulunan",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "her yerde mevcut",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_onerous",
+    "word": "onerous",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "zahmetli",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "külfetli",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_opaque",
+    "word": "opaque",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "şeffaf olmayan",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "anlaşılması güç",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_paradigm",
+    "word": "paradigm",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "model",
+        "type": "isim"
+      },
+      {
+        "meaning": "düşünce kalıbı",
+        "type": "isim"
+      },
+      {
+        "meaning": "paradigma",
+        "type": "isim"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_paramount",
+    "word": "paramount",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "çok önemli",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "en üstün",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_pervasive",
+    "word": "pervasive",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "yaygın",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "her yere işlemiş",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_plausible",
+    "word": "plausible",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "makul",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "inandırıcı",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_poignant",
+    "word": "poignant",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "dokunaklı",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "derinden etkileyen",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_pragmatic",
+    "word": "pragmatic",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "pragmatik",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "uygulamaya dönük",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_precarious",
+    "word": "precarious",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "tehlikeli",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "istikrarsız",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_profound",
+    "word": "profound",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "derin",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "çok etkili",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_prolific",
+    "word": "prolific",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "üretken",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "verimli",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_quintessential",
+    "word": "quintessential",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "özünü temsil eden",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "en tipik",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_reconcile",
+    "word": "reconcile",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "uzlaştırmak",
+        "type": "fiil"
+      },
+      {
+        "meaning": "bağdaştırmak",
+        "type": "fiil"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_refute",
+    "word": "refute",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "çürütmek",
+        "type": "fiil"
+      },
+      {
+        "meaning": "yanlış olduğunu kanıtlamak",
+        "type": "fiil"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_reluctant",
+    "word": "reluctant",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "isteksiz",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "gönülsüz",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_resilient",
+    "word": "resilient",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "dayanıklı",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "çabuk toparlanan",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_scrutinize",
+    "word": "scrutinize",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "dikkatle incelemek",
+        "type": "fiil"
+      },
+      {
+        "meaning": "mercek altına almak",
+        "type": "fiil"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_sporadic",
+    "word": "sporadic",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "ara sıra olan",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "düzensiz aralıklarla görülen",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_stagnant",
+    "word": "stagnant",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "durgun",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "gelişmeyen",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_substantiate",
+    "word": "substantiate",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "kanıtlamak",
+        "type": "fiil"
+      },
+      {
+        "meaning": "delille desteklemek",
+        "type": "fiil"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_succinct",
+    "word": "succinct",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "özlü",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "kısa ve net",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_superfluous",
+    "word": "superfluous",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "gereksiz",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "fazladan",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_surreptitious",
+    "word": "surreptitious",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "gizli",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "el altından yapılan",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_tacit",
+    "word": "tacit",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "örtük",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "sözle ifade edilmeyen",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_tenacious",
+    "word": "tenacious",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "inatçı",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "ısrarcı",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_transient",
+    "word": "transient",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "geçici",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "kısa süreli",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_ubiquitous",
+    "word": "ubiquitous",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "her yerde bulunan",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "çok yaygın",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_unprecedented",
+    "word": "unprecedented",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "emsalsiz",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "daha önce görülmemiş",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_viable",
+    "word": "viable",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "uygulanabilir",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "yaşayabilir",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_vindicate",
+    "word": "vindicate",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "haklı çıkarmak",
+        "type": "fiil"
+      },
+      {
+        "meaning": "temize çıkarmak",
+        "type": "fiil"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_volatile",
+    "word": "volatile",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "değişken",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "uçucu",
+        "type": "sıfat"
+      },
+      {
+        "meaning": "istikrarsız",
+        "type": "sıfat"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  },
+  {
+    "id": "c2_warrant",
+    "word": "warrant",
+    "level": "C2",
+    "meanings": [
+      {
+        "meaning": "gerektirmek",
+        "type": "fiil"
+      },
+      {
+        "meaning": "haklı göstermek",
+        "type": "fiil"
+      },
+      {
+        "meaning": "yetki belgesi",
+        "type": "isim"
+      }
+    ],
+    "exampleSentence": "",
+    "source": "curated"
+  }
+]

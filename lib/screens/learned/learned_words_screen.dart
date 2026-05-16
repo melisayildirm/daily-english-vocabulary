@@ -26,6 +26,8 @@ class _LearnedWordsScreenState
   }
 
   Future<void> loadLearnedWords() async {
+    await _userService.cleanDuplicateLearnedWords();
+
     final words =
         await _userService.getLearnedWords();
 

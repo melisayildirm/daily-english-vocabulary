@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../services/streak_service.dart';
 import '../../services/user_service.dart';
-import '../../services/word_database_service.dart';
 import '../level/level_selection_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -15,11 +14,9 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final UserService _userService = UserService();
-  final WordDatabaseService _wordDatabaseService = WordDatabaseService();
 
   int streak = 0;
   int totalLearned = 0;
-  bool isUploadingWords = false;
 
   @override
   void initState() {
@@ -46,38 +43,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() {
       totalLearned = learnedWords.length;
     });
-  }
-
-  Future<void> uploadA1Words() async {
-    setState(() {
-      isUploadingWords = true;
-    });
-
-    try {
-      await _wordDatabaseService.uploadAllWordsToFirestore();
-
-      if (!mounted) return;
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Tüm Kelimeleri Veritabanına Yükle.'),
-        ),
-      );
-    } catch (e) {
-      if (!mounted) return;
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Yükleme hatası: $e'),
-        ),
-      );
-    } finally {
-      if (!mounted) return;
-
-      setState(() {
-        isUploadingWords = false;
-      });
-    }
   }
 
   String getUserName() {
@@ -210,10 +175,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
 
             const Spacer(),
-
-           
-
-            const SizedBox(height: 12),
 
             SizedBox(
               width: double.infinity,

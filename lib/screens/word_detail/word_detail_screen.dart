@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+
 import '../../models/word_model.dart';
-import '../../services/word_service.dart';
+import '../../services/gemini_service.dart';
 
 class WordDetailScreen extends StatefulWidget {
   final WordModel word;
@@ -11,22 +12,54 @@ class WordDetailScreen extends StatefulWidget {
   });
 
   @override
-  State<WordDetailScreen> createState() => _WordDetailScreenState();
+  State<WordDetailScreen> createState() =>
+      _WordDetailScreenState();
 }
 
-class _WordDetailScreenState extends State<WordDetailScreen> {
-  bool get isLearned {
-    return WordService.learnedWords.any((w) => w.id == widget.word.id);
-  }
+class _WordDetailScreenState
+    extends State<WordDetailScreen> {
+  final GeminiService _geminiService =
+      GeminiService();
 
-  void toggleLearned() {
+  String? aiSentence;
+
+  bool isGenerating = false;
+
+  Future<void> generateAISentence() async {
     setState(() {
-      if (isLearned) {
-        WordService.learnedWords.removeWhere((w) => w.id == widget.word.id);
-      } else {
-        WordService.addLearnedWord(widget.word);
-      }
+      isGenerating = true;
     });
+
+    try {
+      final sentence =
+          await _geminiService.generateExampleSentence(
+        word: widget.word.word,
+        level: widget.word.level,
+        meaning: widget.word.mainMeaning,
+      );
+
+      if (!mounted) return;
+
+      setState(() {
+        aiSentence = sentence;
+      });
+    } catch (e) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'AI cümlesi oluşturulamadı: $e',
+          ),
+        ),
+      );
+    } finally {
+      if (!mounted) return;
+
+      setState(() {
+        isGenerating = false;
+      });
+    }
   }
 
   @override
@@ -38,7 +71,7 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
         title: const Text('Kelime Detayı'),
         centerTitle: true,
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
@@ -54,7 +87,8 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(28),
+                borderRadius:
+                    BorderRadius.circular(28),
               ),
               child: Column(
                 children: [
@@ -67,7 +101,9 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
                       fontWeight: FontWeight.w800,
                     ),
                   ),
+
                   const SizedBox(height: 10),
+
                   Text(
                     word.mainMeaning,
                     textAlign: TextAlign.center,
@@ -89,8 +125,44 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
 
             _infoCard(
               title: 'Örnek Cümle',
-              content: word.exampleSentence,
+              content: aiSentence ??
+                  (word.exampleSentence.isEmpty
+                      ? 'AI ile örnek cümle oluşturabilirsin.'
+                      : word.exampleSentence),
               icon: Icons.format_quote,
+            ),
+
+            const SizedBox(height: 16),
+
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed:
+                    isGenerating
+                        ? null
+                        : generateAISentence,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor:
+                      const Color(0xFF5C4AE4),
+                  foregroundColor: Colors.white,
+                  padding:
+                      const EdgeInsets.symmetric(
+                    vertical: 16,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(18),
+                  ),
+                ),
+                child: Text(
+                  isGenerating
+                      ? 'AI düşünüyor...'
+                      : 'AI ile Örnek Cümle Oluştur',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
             ),
 
             const SizedBox(height: 12),
@@ -99,16 +171,6 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
               title: 'Seviye',
               content: word.level,
               icon: Icons.school,
-            ),
-
-            const Spacer(),
-
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: toggleLearned,
-                child: Text(isLearned ? 'Öğrenildi' : 'Öğrendim'),
-              ),
             ),
           ],
         ),
@@ -123,14 +185,20 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
       decoration: BoxDecoration(
         color: const Color(0xFF2A2A2A),
         borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: const Color(0xFF3A3A3A)),
+        border: Border.all(
+          color: const Color(0xFF3A3A3A),
+        ),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:
+            CrossAxisAlignment.start,
         children: [
           const Row(
             children: [
-              Icon(Icons.translate, color: Color(0xFFA8F0C6)),
+              Icon(
+                Icons.translate,
+                color: Color(0xFFA8F0C6),
+              ),
               SizedBox(width: 12),
               Text(
                 'Anlamlar',
@@ -147,12 +215,16 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
 
           ...word.meanings.map((item) {
             return Container(
-              margin: const EdgeInsets.only(bottom: 10),
+              margin:
+                  const EdgeInsets.only(bottom: 10),
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: const Color(0xFF1F1F1F),
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: const Color(0xFF3A3A3A)),
+                borderRadius:
+                    BorderRadius.circular(16),
+                border: Border.all(
+                  color: const Color(0xFF3A3A3A),
+                ),
               ),
               child: Row(
                 children: [
@@ -165,14 +237,19 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
                       ),
                     ),
                   ),
+
                   Container(
-                    padding: const EdgeInsets.symmetric(
+                    padding:
+                        const EdgeInsets.symmetric(
                       horizontal: 10,
                       vertical: 5,
                     ),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFE8F9F2),
-                      borderRadius: BorderRadius.circular(20),
+                      color: const Color(
+                        0xFFE8F9F2,
+                      ),
+                      borderRadius:
+                          BorderRadius.circular(20),
                     ),
                     child: Text(
                       item.type,
@@ -203,16 +280,25 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
       decoration: BoxDecoration(
         color: const Color(0xFF2A2A2A),
         borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: const Color(0xFF3A3A3A)),
+        border: Border.all(
+          color: const Color(0xFF3A3A3A),
+        ),
       ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:
+            CrossAxisAlignment.start,
         children: [
-          Icon(icon, color: const Color(0xFFA8F0C6)),
+          Icon(
+            icon,
+            color: const Color(0xFFA8F0C6),
+          ),
+
           const SizedBox(width: 14),
+
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment:
+                  CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
@@ -221,7 +307,9 @@ class _WordDetailScreenState extends State<WordDetailScreen> {
                     fontSize: 13,
                   ),
                 ),
+
                 const SizedBox(height: 6),
+
                 Text(
                   content,
                   style: const TextStyle(

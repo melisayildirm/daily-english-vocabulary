@@ -105,4 +105,25 @@ class UserService {
       'updatedAt': FieldValue.serverTimestamp(),
     }, SetOptions(merge: true));
   }
+  Future<void> cleanDuplicateLearnedWords() async {
+  final uid = currentUserId;
+
+  if (uid == null) return;
+
+  final learnedWords = await getLearnedWords();
+
+  final Map<String, WordModel> uniqueWords = {};
+
+  for (final word in learnedWords) {
+    uniqueWords[word.id] = word;
+  }
+
+  final cleanedWords = uniqueWords.values.toList();
+
+  await _firestore.collection('users').doc(uid).set({
+    'learnedWords': cleanedWords.map((word) => word.toMap()).toList(),
+    'learnedWordsCount': cleanedWords.length,
+    'updatedAt': FieldValue.serverTimestamp(),
+  }, SetOptions(merge: true));
+}
 }

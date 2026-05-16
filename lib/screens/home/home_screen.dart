@@ -27,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final WordDatabaseService _wordDatabaseService = WordDatabaseService();
 
   List<WordModel> words = [];
+  List<WordModel> todayLearnedWords = [];
 
   Set<String> learnedWordIds = {};
   Set<String> todayLearnedWordIds = {};
@@ -76,6 +77,11 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       learnedWordIds.add(word.id);
       todayLearnedWordIds.add(word.id);
+
+      if (!todayLearnedWords.any((item) => item.id == word.id)) {
+        todayLearnedWords.add(word);
+      }
+
       words.removeWhere((item) => item.id == word.id);
       totalLearnedCount++;
       isSaving = false;
@@ -86,7 +92,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final int totalWords = widget.dailyWordCount;
     final int learnedTodayCount = todayLearnedWordIds.length;
-    final double progress = totalWords == 0 ? 0 : learnedTodayCount / totalWords;
+    final double progress =
+        totalWords == 0 ? 0 : learnedTodayCount / totalWords;
 
     return Scaffold(
       body: SafeArea(
@@ -164,7 +171,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
+
                   const SizedBox(height: 14),
+
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Row(
@@ -175,7 +184,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
+
                   const SizedBox(height: 14),
+
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Wrap(
@@ -204,7 +215,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const QuizScreen(),
+                                builder: (context) => QuizScreen(
+                                  todayWords: todayLearnedWords,
+                                ),
                               ),
                             );
                           },
@@ -225,7 +238,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
+
                   const SizedBox(height: 10),
+
                   Expanded(
                     child: words.isEmpty
                         ? const Center(
@@ -288,7 +303,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       const SizedBox(height: 8),
                                       Text(
                                         word.exampleSentence.isEmpty
-                                            ? 'Örnek cümle daha sonra eklenecek.'
+                                            ? 'AI ile örnek cümle oluşturabilirsin.'
                                             : word.exampleSentence,
                                         style: const TextStyle(
                                           color: Colors.white70,
