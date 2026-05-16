@@ -66,6 +66,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         setState(() => isLoading = true);
 
                         final error = await _authService.register(
+                          name: nameController.text.trim(),
                           email: emailController.text.trim(),
                           password: passwordController.text.trim(),
                         );

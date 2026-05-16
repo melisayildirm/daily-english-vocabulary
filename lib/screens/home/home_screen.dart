@@ -44,7 +44,15 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> loadWords() async {
+    await _userService.saveTodayLearningSettings(
+      selectedLevel: widget.selectedLevel,
+      dailyWordCount: widget.dailyWordCount,
+    );
+
     learnedWordIds = await _userService.getLearnedWordIds();
+
+    final learnedWords = await _userService.getLearnedWords();
+    final todayWords = await _userService.getTodayLearnedWords();
 
     final firestoreWords = await _wordDatabaseService.getWordsByLevel(
       level: widget.selectedLevel,
@@ -52,13 +60,15 @@ class _HomeScreenState extends State<HomeScreen> {
       learnedWordIds: learnedWordIds,
     );
 
-    final learnedWords = await _userService.getLearnedWords();
-
     if (!mounted) return;
 
     setState(() {
       words = firestoreWords;
       totalLearnedCount = learnedWords.length;
+
+      todayLearnedWords = todayWords;
+      todayLearnedWordIds = todayWords.map((word) => word.id).toSet();
+
       isLoading = false;
     });
   }
@@ -72,18 +82,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
     await _userService.addLearnedWord(word);
 
+    final learnedWords = await _userService.getLearnedWords();
+    final todayWords = await _userService.getTodayLearnedWords();
+
     if (!mounted) return;
 
     setState(() {
       learnedWordIds.add(word.id);
-      todayLearnedWordIds.add(word.id);
 
-      if (!todayLearnedWords.any((item) => item.id == word.id)) {
-        todayLearnedWords.add(word);
-      }
+      todayLearnedWords = todayWords;
+      todayLearnedWordIds = todayWords.map((item) => item.id).toSet();
 
       words.removeWhere((item) => item.id == word.id);
-      totalLearnedCount++;
+      totalLearnedCount = learnedWords.length;
       isSaving = false;
     });
   }
@@ -159,7 +170,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: LinearProgressIndicator(
-                                  value: progress,
+                                  value: progress > 1 ? 1 : progress,
                                   minHeight: 7,
                                   backgroundColor: Colors.white24,
                                   color: const Color(0xFFA8F0C6),
@@ -171,22 +182,21 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
-
                   const SizedBox(height: 14),
-
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Row(
                       children: [
                         _statBox('$learnedTodayCount', 'Bugün'),
                         _statBox('$totalLearnedCount', 'Toplam'),
-                        _statBox('${(progress * 100).toInt()}%', 'İlerleme'),
+                        _statBox(
+                          '${((progress > 1 ? 1 : progress) * 100).toInt()}%',
+                          'İlerleme',
+                        ),
                       ],
                     ),
                   ),
-
                   const SizedBox(height: 14),
-
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Wrap(
@@ -205,18 +215,25 @@ class _HomeScreenState extends State<HomeScreen> {
                                     const LearnedWordsScreen(),
                               ),
                             );
+
+                            await loadWords();
                           },
                         ),
                         _smallActionButton(
                           title: 'Quiz',
                           color: const Color(0xFFEEF0FF),
                           textColor: const Color(0xFF2A1E8F),
-                          onTap: () {
+                          onTap: () async {
+                            final todayWords =
+                                await _userService.getTodayLearnedWords();
+
+                            if (!context.mounted) return;
+
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => QuizScreen(
-                                  todayWords: todayLearnedWords,
+                                  todayWords: todayWords,
                                 ),
                               ),
                             );
@@ -226,21 +243,21 @@ class _HomeScreenState extends State<HomeScreen> {
                           title: 'Profil',
                           color: const Color(0xFFEDEBFF),
                           textColor: const Color(0xFF2A1E8F),
-                          onTap: () {
-                            Navigator.push(
+                          onTap: () async {
+                            await Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => const ProfileScreen(),
                               ),
                             );
+
+                            await loadWords();
                           },
                         ),
                       ],
                     ),
                   ),
-
                   const SizedBox(height: 10),
-
                   Expanded(
                     child: words.isEmpty
                         ? const Center(

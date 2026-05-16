@@ -7,9 +7,10 @@ class AuthService {
   final UserService _userService = UserService();
 
   Future<String?> register({
-    required String email,
-    required String password,
-  }) async {
+  required String name,
+  required String email,
+  required String password,
+}) async {
     try {
       final UserCredential credential =
           await _auth.createUserWithEmailAndPassword(
@@ -17,9 +18,15 @@ class AuthService {
         password: password,
       );
 
+      await credential.user?.updateDisplayName(name);
+      await credential.user?.reload();
+
       await credential.user?.sendEmailVerification();
 
-      await _userService.createUserIfNotExists();
+      await _userService.createUserIfNotExists(
+        name: name,
+      );
+      
 
       return null;
     } on FirebaseAuthException catch (e) {

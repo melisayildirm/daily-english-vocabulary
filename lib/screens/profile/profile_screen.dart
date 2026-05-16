@@ -18,6 +18,7 @@ class _ProfileScreenState extends State<ProfileScreen>
 
   int streak = 0;
   int totalLearned = 0;
+  String userName = 'Kullanıcı';
 
   late AnimationController _streakController;
   late Animation<double> _streakScaleAnimation;
@@ -63,21 +64,23 @@ class _ProfileScreenState extends State<ProfileScreen>
 
   Future<void> loadUserStats() async {
     final learnedWords = await _userService.getLearnedWords();
+    final userData = await _userService.getUserData();
+
+    final String resolvedName =
+        userData?['firstName']?.toString().trim().isNotEmpty == true
+            ? userData!['firstName'].toString().trim()
+            : userData?['name']?.toString().trim().isNotEmpty == true
+                ? userData!['name'].toString().trim()
+                : userData?['username']?.toString().trim().isNotEmpty == true
+                    ? userData!['username'].toString().trim()
+                    : 'Kullanıcı';
 
     if (!mounted) return;
 
     setState(() {
       totalLearned = learnedWords.length;
+      userName = resolvedName;
     });
-  }
-
-  String getUserName() {
-    final user = FirebaseAuth.instance.currentUser;
-    final email = user?.email ?? '';
-
-    if (email.isEmpty) return 'Melisa';
-
-    return email.split('@').first;
   }
 
   String getUserEmail() {
@@ -139,7 +142,9 @@ class _ProfileScreenState extends State<ProfileScreen>
           child: Column(
             children: [
               _headerCard(),
-              const SizedBox(height: 16),
+              const SizedBox(height: 18),
+              _animatedStreakCard(),
+              const SizedBox(height: 18),
               Row(
                 children: [
                   _miniStatCard(
@@ -149,7 +154,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                   ),
                   const SizedBox(width: 12),
                   _miniStatCard(
-                    title: 'Seviye',
+                    title: 'Aktif Seviye',
                     value: 'Esnek',
                     backgroundColor: const Color(0xFFDFF4E5),
                   ),
@@ -160,7 +165,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                 children: [
                   _miniStatCard(
                     title: 'Günlük Hedef',
-                    value: 'Her gün',
+                    value: 'Seçilebilir',
                     backgroundColor: const Color(0xFFFFF0BD),
                   ),
                   const SizedBox(width: 12),
@@ -171,8 +176,6 @@ class _ProfileScreenState extends State<ProfileScreen>
                   ),
                 ],
               ),
-              const SizedBox(height: 18),
-              _animatedStreakCard(),
             ],
           ),
         ),
@@ -215,7 +218,7 @@ class _ProfileScreenState extends State<ProfileScreen>
           ),
           const SizedBox(height: 14),
           Text(
-            'Hoşgeldin ${getUserName()}',
+            'Hoşgeldin $userName',
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.white,
@@ -394,9 +397,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                               ],
                             )
                           : null,
-                      color: isActive
-                          ? null
-                          : Colors.white.withOpacity(0.10),
+                      color:
+                          isActive ? null : Colors.white.withOpacity(0.10),
                       boxShadow: isActive
                           ? [
                               BoxShadow(
