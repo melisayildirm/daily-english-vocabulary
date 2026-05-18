@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'user_service.dart';
 
 class AuthService {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final UserService _userService = UserService();
+  final FirebaseAuth _auth = FirebaseAuth.instance; //firebase authentication servisine erişmek için 
+  final UserService _userService = UserService(); //firestore kullanıcı işlemleri için 
 
   Future<String?> register({
   required String name,
@@ -13,15 +13,15 @@ class AuthService {
 }) async {
     try {
       final UserCredential credential =
-          await _auth.createUserWithEmailAndPassword(
+          await _auth.createUserWithEmailAndPassword(  //kullanıcının email ve şifresiyle hesap oluşturuluyor
         email: email,
         password: password,
       );
 
-      await credential.user?.updateDisplayName(name);
+      await credential.user?.updateDisplayName(name); 
       await credential.user?.reload();
 
-      await credential.user?.sendEmailVerification();
+      await credential.user?.sendEmailVerification(); //doğrulama maili gönderiliyor
 
       await _userService.createUserIfNotExists(
         name: name,
@@ -47,7 +47,7 @@ class AuthService {
         password: password,
       );
 
-      if (credential.user != null && !credential.user!.emailVerified) {
+      if (credential.user != null && !credential.user!.emailVerified) {  //email doğrulama yapılmış mı kontrol
         await _auth.signOut();
         return 'Lütfen e-posta adresini doğrula.';
       }

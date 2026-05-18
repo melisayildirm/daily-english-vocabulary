@@ -1,22 +1,48 @@
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class StreakService {
-  static const String _streakKey = 'streak_count';
-  static const String _lastOpenDateKey = 'last_open_date';
+  static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  static final FirebaseAuth _auth = FirebaseAuth.instance;
 
   static Future<int> updateAndGetStreak() async {
-    final prefs = await SharedPreferences.getInstance();
+    final user = _auth.currentUser;
+
+    if (user == null) {
+      return 0;
+    }
+
+    final userDoc = _firestore.collection('users').doc(user.uid);
+    final snapshot = await userDoc.get();
+
+    if (!snapshot.exists) {
+      await userDoc.set({
+        'uid': user.uid,
+        'email': user.email,
+        'name': user.displayName ?? '',
+        'learnedWords': [],
+        'learnedWordsCount': 0,
+        'streak': 1,
+        'lastActiveDate': DateTime.now().toIso8601String(),
+        'createdAt': FieldValue.serverTimestamp(),
+        'updatedAt': FieldValue.serverTimestamp(),
+      });
+
+      return 1;
+    }
+
+    final data = snapshot.data();
+
+    int streak = data?['streak'] ?? 0;
+    final lastActiveDateString = data?['lastActiveDate'];
 
     final today = DateTime.now();
     final todayOnly = DateTime(today.year, today.month, today.day);
 
-    final lastDateString = prefs.getString(_lastOpenDateKey);
-    int streak = prefs.getInt(_streakKey) ?? 0;
-
-    if (lastDateString == null) {
+    if (lastActiveDateString == null) {
       streak = 1;
     } else {
-      final lastDate = DateTime.parse(lastDateString);
+      final lastDate = DateTime.parse(lastActiveDateString);
       final lastDateOnly = DateTime(
         lastDate.year,
         lastDate.month,
@@ -34,14 +60,31 @@ class StreakService {
       }
     }
 
-    await prefs.setInt(_streakKey, streak);
-    await prefs.setString(_lastOpenDateKey, todayOnly.toIso8601String());
+    await userDoc.set({
+      'streak': streak,
+      'lastActiveDate': todayOnly.toIso8601String(),
+      'updatedAt': FieldValue.serverTimestamp(),
+    }, SetOptions(merge: true));
 
     return streak;
   }
 
   static Future<int> getStreak() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getInt(_streakKey) ?? 0;
+    final user = _auth.currentUser;
+
+    if (user == null) {
+      return 0;
+    }
+
+    final snapshot =
+        await _firestore.collection('users').doc(user.uid).get();
+
+    if (!snapshot.exists) {
+      return 0;
+    }
+
+    final data = snapshot.data();
+
+    return data?['streak'] ?? 0;
   }
 }
