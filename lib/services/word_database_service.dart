@@ -20,7 +20,7 @@ class WordDatabaseService {
     final String jsonString =
         await rootBundle.loadString('assets/data/${level}_words.json');
 
-    final List<dynamic> words = jsonDecode(jsonString);
+    final List<dynamic> words = jsonDecode(jsonString); //JSON verisini Dart listesine çeviriyor
 
     WriteBatch batch = _firestore.batch();
     int operationCount = 0;
@@ -69,9 +69,9 @@ class WordDatabaseService {
       .where((word) => !learnedWordIds.contains(word.id))
       .toList();
 
-  words.shuffle();
+  words.shuffle(); //random karıştırılıyor
 
-  return words.take(count).toList();
+  return words.take(count).toList(); //kullanıcının günlük hedefi kadar kelime veriliyor
 }
 
   Future<int> getWordCount() async {

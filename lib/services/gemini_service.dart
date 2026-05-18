@@ -1,15 +1,15 @@
 import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class GeminiService {
-  static const String _apiKey =
-    'AIzaSyAqoelXTX4nGc1RjQ_yJ_9kvVKqTonp-TA';
+  static final String apiKey = dotenv.env['GEMINI_API_KEY'] ?? '';
 
   late final GenerativeModel _model;
 
   GeminiService() {
     _model = GenerativeModel(
       model: 'gemini-flash-latest',
-      apiKey: _apiKey,
+      apiKey: apiKey,
     );
   }
 
@@ -18,7 +18,7 @@ class GeminiService {
     required String level,
     required String meaning,
   }) async {
-    if (_apiKey.isEmpty) {
+    if (apiKey.isEmpty) {
       return 'Gemini API key bulunamadı.';
     }
 

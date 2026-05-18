@@ -26,10 +26,10 @@ class UserService {
 
     if (user == null) return;
 
-    final userDoc = _firestore.collection('users').doc(user.uid);
+    final userDoc = _firestore.collection('users').doc(user.uid); //kullanıcı bilgileri
     final snapshot = await userDoc.get();
 
-    if (!snapshot.exists) {
+    if (!snapshot.exists) { //kullanıcı yoksa yeni kullanıcı dokumanı olusturur
       await userDoc.set({
         'uid': user.uid,
         'email': user.email,
