@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../models/word_model.dart';
 import '../../services/gemini_service.dart';
+import '../../services/tts_service.dart';
 
 class WordDetailScreen extends StatefulWidget {
   final WordModel word;
@@ -12,14 +13,12 @@ class WordDetailScreen extends StatefulWidget {
   });
 
   @override
-  State<WordDetailScreen> createState() =>
-      _WordDetailScreenState();
+  State<WordDetailScreen> createState() => _WordDetailScreenState();
 }
 
-class _WordDetailScreenState
-    extends State<WordDetailScreen> {
-  final GeminiService _geminiService =
-      GeminiService();
+class _WordDetailScreenState extends State<WordDetailScreen> {
+  final GeminiService _geminiService = GeminiService();
+  final TtsService _ttsService = TtsService();
 
   String? aiSentence;
 
@@ -31,8 +30,7 @@ class _WordDetailScreenState
     });
 
     try {
-      final sentence =
-          await _geminiService.generateExampleSentence(
+      final sentence = await _geminiService.generateExampleSentence(
         word: widget.word.word,
         level: widget.word.level,
         meaning: widget.word.mainMeaning,
@@ -48,9 +46,7 @@ class _WordDetailScreenState
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(
-            'AI cümlesi oluşturulamadı: $e',
-          ),
+          content: Text('AI cümlesi oluşturulamadı: $e'),
         ),
       );
     } finally {
@@ -60,6 +56,16 @@ class _WordDetailScreenState
         isGenerating = false;
       });
     }
+  }
+
+  Future<void> listenWord() async {
+    await _ttsService.speakWord(widget.word.word);
+  }
+
+  @override
+  void dispose() {
+    _ttsService.stop();
+    super.dispose();
   }
 
   @override
@@ -87,8 +93,7 @@ class _WordDetailScreenState
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius:
-                    BorderRadius.circular(28),
+                borderRadius: BorderRadius.circular(28),
               ),
               child: Column(
                 children: [
@@ -101,9 +106,7 @@ class _WordDetailScreenState
                       fontWeight: FontWeight.w800,
                     ),
                   ),
-
                   const SizedBox(height: 10),
-
                   Text(
                     word.mainMeaning,
                     textAlign: TextAlign.center,
@@ -113,11 +116,30 @@ class _WordDetailScreenState
                       fontWeight: FontWeight.w700,
                     ),
                   ),
+                  const SizedBox(height: 18),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 48,
+                    child: OutlinedButton.icon(
+                      onPressed: listenWord,
+                      icon: const Icon(Icons.volume_up),
+                      label: const Text('Kelimeyi Dinle'),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        side: const BorderSide(
+                          color: Colors.white70,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: 16),
 
             _meaningsCard(word),
 
@@ -137,21 +159,15 @@ class _WordDetailScreenState
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed:
-                    isGenerating
-                        ? null
-                        : generateAISentence,
+                onPressed: isGenerating ? null : generateAISentence,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      const Color(0xFF5C4AE4),
+                  backgroundColor: const Color(0xFF5C4AE4),
                   foregroundColor: Colors.white,
-                  padding:
-                      const EdgeInsets.symmetric(
+                  padding: const EdgeInsets.symmetric(
                     vertical: 16,
                   ),
                   shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(18),
+                    borderRadius: BorderRadius.circular(18),
                   ),
                 ),
                 child: Text(
@@ -190,8 +206,7 @@ class _WordDetailScreenState
         ),
       ),
       child: Column(
-        crossAxisAlignment:
-            CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Row(
             children: [
@@ -210,18 +225,14 @@ class _WordDetailScreenState
               ),
             ],
           ),
-
           const SizedBox(height: 14),
-
           ...word.meanings.map((item) {
             return Container(
-              margin:
-                  const EdgeInsets.only(bottom: 10),
+              margin: const EdgeInsets.only(bottom: 10),
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: const Color(0xFF1F1F1F),
-                borderRadius:
-                    BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16),
                 border: Border.all(
                   color: const Color(0xFF3A3A3A),
                 ),
@@ -237,19 +248,14 @@ class _WordDetailScreenState
                       ),
                     ),
                   ),
-
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       horizontal: 10,
                       vertical: 5,
                     ),
                     decoration: BoxDecoration(
-                      color: const Color(
-                        0xFFE8F9F2,
-                      ),
-                      borderRadius:
-                          BorderRadius.circular(20),
+                      color: const Color(0xFFE8F9F2),
+                      borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
                       item.type,
@@ -285,20 +291,16 @@ class _WordDetailScreenState
         ),
       ),
       child: Row(
-        crossAxisAlignment:
-            CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(
             icon,
             color: const Color(0xFFA8F0C6),
           ),
-
           const SizedBox(width: 14),
-
           Expanded(
             child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
@@ -307,9 +309,7 @@ class _WordDetailScreenState
                     fontSize: 13,
                   ),
                 ),
-
                 const SizedBox(height: 6),
-
                 Text(
                   content,
                   style: const TextStyle(

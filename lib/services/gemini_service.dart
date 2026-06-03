@@ -8,7 +8,7 @@ class GeminiService {
 
   GeminiService() {
     _model = GenerativeModel(
-      model: 'gemini-flash-latest',
+      model: 'gemini-2.5-flash-lite',
       apiKey: apiKey,
     );
   }
@@ -33,16 +33,35 @@ Rules:
 - Write ONE natural English sentence.
 - Then write the Turkish translation.
 - Keep it suitable for $level level.
+- Do not add extra explanation.
 - Response format:
 
 English: ...
 Turkish: ...
 ''';
 
-    final response = await _model.generateContent([
-      Content.text(prompt),
-    ]);
+    try {
+      final response = await _model.generateContent([
+        Content.text(prompt),
+      ]);
 
-    return response.text?.trim() ?? 'Örnek cümle üretilemedi.';
+      final text = response.text?.trim();
+
+      if (text == null || text.isEmpty) {
+        return 'Örnek cümle üretilemedi. Lütfen tekrar dene.';
+      }
+
+      return text;
+    } on GenerativeAIException catch (e) {
+      if (e.message.contains('503') ||
+          e.message.toLowerCase().contains('high demand') ||
+          e.message.toLowerCase().contains('unavailable')) {
+        return 'AI şu anda yoğun olduğu için örnek cümle oluşturulamadı. Lütfen biraz sonra tekrar dene.';
+      }
+
+      return 'AI cümlesi oluşturulurken bir hata oluştu: ${e.message}';
+    } catch (e) {
+      return 'Beklenmeyen bir hata oluştu. Lütfen tekrar dene.';
+    }
   }
 }
